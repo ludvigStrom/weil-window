@@ -663,3 +663,364 @@ Together with the position attempt: small primes are frequency-like
 (they join its two ends), and no single labelling makes all of them
 simple. The near-null space is a phase-space object: about 25 cells,
 neither places nor pitches.
+
+## The "jammed packing" picture: tested, fails (`jam_test.py`, c = 14.2)
+
+Speculation: the primes as a jammed pile at the edge of coming loose
+(tents, no allowed neighbours, one soft breathing mode, a crowd of
+nearly-free modes). Two standard signatures of jamming:
+
+**(a) One contact removed, one mode goes soft.** Not so:
+
+| left out | negative eigenvalues |
+|---|---|
+| one prime power (2, 3, 4, 5, 7, 8, 9, 11) | 8 to 13 |
+| 13 alone (the newest) | 5 |
+| 2 with 4 and 8 | 12 |
+| 5 and 7 | 8 |
+| 7, 11 and 13 | 11 |
+| every prime | 4 |
+
+Removing one prime power sends about half the near-null family negative,
+the same as moving one. The count does not add up contact by contact,
+and with no primes at all only 4 directions are negative (to -2.1). So
+the primes are not local contacts: each one touches the whole family.
+
+**(b) Soft modes with a flat density in frequency** (number below
+stiffness k growing like sqrt k). Not so: the tiny levels at c = 8.2 are
+1e-33.3, 1e-26.7, 1e-20.6, 1e-15.3, 1e-10.6, 1e-6.5, 1e-2.9 (even), in
+steps of 4 to 7 decades. A geometric ladder, uniform in the logarithm.
+
+**Verdict: not a jammed solid.** The tent and the rigidity are what any
+system with many levels at the same energy does under a small push; they
+do not single out jamming. A geometric ladder is the signature of
+Boltzmann factors of evenly spaced modes (or of leakage through an ever
+thicker barrier), which is the horizon / thermal reading already found
+for the top of the ladder, and Eisler-Peschel's entanglement spectrum.
+New fact from the test: the background alone has only 4 negative
+directions at c = 14.2.
+
+## The clock's ticks (`clock_ticks.py`, c = 8.2: primes 2, 3, 5, 7 only; N = 50, 60 digits)
+
+Connes's recipe: lowest even state xi of the form, its transform
+xi^(s) = int xi(u) cos(su) du, its real zeros ("ticks": the spectrum of
+the scaling operator on the window with the boundary rule built from xi).
+
+**True primes: 13 ticks below 60, and zeta has 13 zeros there.**
+
+| zero | 14.13 | 21.02 | 25.01 | 30.42 | 32.94 | 37.59 | 40.92 | 43.33 | 48.01 | 49.77 | 52.97 | 56.45 | 59.35 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| tick - zero | 3e-30 | 4e-27 | 2e-25 | 1e-22 | 2e-21 | 1e-19 | 7e-18 | 6e-17 | 8e-15 | 6e-14 | 4e-13 | 1e-11 | 4e-10 |
+
+Nothing below 14.13. (This reproduces CCM / Connes-van Suijlekom; the
+zeros from `mpmath.zetazero`.)
+
+**Primes moved:**
+
+| move | real ticks below 60 | the genuine ones | extra ticks |
+|---|---|---|---|
+| none | 13 | exact to 1e-30 ... 1e-10 | none |
+| zoom out 0.1% | 17 | at zero / 1.001, to 1e-5 ... 1e-2 | 3 below the first zero, 1 near 38 |
+| zoom out 1% | 17 | at zero / 1.01, to 1e-3 ... 1e-2 | 4.22, 7.56, 11.67 and 21.94 |
+| zoom in 0.1% | 19 | at zero / 0.999, to 1e-4 ... 1e-2 | 3 below the first zero, 3 higher |
+| 7 -> 7.007 | 19 | shifted by 1e-4 to 3e-2 | 0.54, 3.44, 6.76, 10.14, 16.61, 24.00 |
+| 7 -> 7.07 | 19 | shifted by 2e-3 to 0.7 | 1.06, 3.77, 6.93, 10.23, 16.67, 23.88 |
+| 2 -> 2.02 | 19 | shifted by 0.03 to 0.5 | 1.53, 4.60, 7.50, 10.54, 19.79, 27.54 |
+
+- **Under a zoom the ticks follow the tape speed**: they sit at
+  zero / (1 + eps). The clock really is the zoom.
+- **Any move fills the silence below the first zero with extra ticks,
+  about 3.0 to 3.4 apart.** The empty box's own notes are 2 pi / L = 2.99
+  apart. So with the primes even slightly wrong, the clock ticks like the
+  empty box at low frequency; with the true primes those notes are
+  cancelled exactly and the first tick is at 14.13.
+- The extra ticks appear at once (the same set at 0.1% and at 1%), not
+  gradually: the lowest state has changed identity (its eigenvalue is
+  -0.005, not 6e-34).
+- All ticks found are real in every case; the count goes up, never down.
+  Complex ticks were not searched for.
+
+### Following the true vacuum instead of the lowest state (`FOLLOW=1 clock_ticks.py`, c = 8.2)
+
+For each move: the eigenstate of the moved form with the largest overlap
+with the true lowest state, and that state's ticks.
+
+| move | position of the prime in the window (ln p / L) | overlap with the true vacuum (next best) | its eigenvalue, rank from bottom | ticks below 60 | error of the first zero |
+|---|---|---|---|---|---|
+| 7 by 0.1% | 0.92 | 0.99991 (0.014) | 1e-24, 4th | 13, no extras | 4e-21 |
+| 7 by 1% | 0.92 | 0.99992 (0.012) | -4e-23, 4th | 13 | 1e-19 |
+| 5 by 0.1% | 0.76 | 0.9972 (0.07) | -1e-10, 4th | 13 | 1e-7 |
+| 5 by 1% | 0.76 | 0.9967 (0.08) | -8e-9, 4th | 13 | 7e-6 |
+| 3 by 0.1% | 0.52 | 0.79 (0.55) | 8e-4, 5th | 19 | lost |
+| 3 by 1% | 0.52 | 0.80 (0.55) | 8e-3, 5th | 17 | lost |
+| 2 by 0.1% | 0.33 | 0.92 (0.33) | 8e-4, 4th | 17 | lost |
+| 2 by 1% | 0.33 | 0.80 (0.56) | 9e-3, 5th | 18 | lost |
+| zoom out / in 1% | all | 0.80 / 0.82 (0.5) | -6e-3 / +6e-3 | 18 | scaled, with extras |
+
+- **Moving an outer prime (7, 5) leaves the vacuum intact.** It is still
+  there, almost unchanged, just no longer the lowest state; its ticks are
+  the 13 zeros with no extras. With 7 at 7.07 the first zero is still
+  right to 19 digits. The breakdown seen before was in the choice of
+  state, not in the state.
+- **Moving an inner prime (2, 3), or zooming, destroys it.** No single
+  state resembles the vacuum; it is spread over several, and the extra
+  ticks are real.
+- The dividing line is position in the window: the vacuum is small near
+  the ends, and a prime near the size of the window only compares the two
+  ends. This is the "flat, edge-blind" state of `ladder.md` and the edge
+  response of `string.md` again.
+- Consequence: the low zeros are fixed to extreme precision by the small
+  primes and the background alone. The largest primes in the window
+  contribute almost nothing to them (first zero: about 1e-17 per unit
+  displacement of 7, 7e-4 per unit of 5).
+
+## The map, version 1 (`sens_map.py`, c = 8.2, N = 50, 90 digits, delta = 1e-36)
+
+Cell = log10 of |d(tick) / d(delta)| when prime p is moved to p (1 + delta),
+in the linear regime (delta far below the gap 2.8e-27 between the vacuum
+and the next state, so the vacuum stays the lowest state; its overlap with
+the true one differs from 1 by 1e-19 to 1e-49).
+
+| zero | 2 | 3 | 5 | 7 |
+|---|---|---|---|---|
+| 14.13 | +2.7 | +1.3 | -4.5 | -13.8 |
+| 21.02 | +5.4 | +4.1 | -1.5 | -10.7 |
+| 25.01 | +7.0 | +5.8 | +0.3 | -8.9 |
+| 30.42 | +9.5 | +8.4 | +2.9 | -6.3 |
+| 32.94 | +10.6 | +9.5 | +4.0 | -5.1 |
+| 37.59 | +12.4 | +11.2 | +5.9 | -3.3 |
+| 40.92 | +14.0 | +12.9 | +7.6 | -1.5 |
+| 43.33 | +14.9 | +13.8 | +8.4 | -0.6 |
+| 48.01 | +16.9 | +15.8 | +10.5 | +1.5 |
+| 49.77 | +17.7 | +16.6 | +11.4 | +2.3 |
+| 52.97 | +18.5 | +17.4 | +12.2 | +3.1 |
+| 56.45 | +19.8 | +18.7 | +13.5 | +4.5 |
+| 59.35 | +21.3 | +20.2 | +15.0 | +6.0 |
+
+**Not a staircase: a product.** Column differences are constant down the
+table (2 minus 3: 1.1 to 1.4; 3 minus 5: 5.2 to 5.8; 5 minus 7: 9.0 to
+9.3). So cell = (touchiness of the zero) x (strength of the prime):
+
+- strength of the prime, relative to 2: 3: 10^-1.1, 5: 10^-6.5, 7: 10^-15.6.
+  It collapses towards the edge of the window.
+- touchiness of the zero: grows by 18.6 decades from the 1st to the 13th
+  zero, about 0.4 decades per unit of height (e^(pi gamma / 4) would give
+  0.34: the decay rate of the xi function).
+
+Why a product: in the linear regime every prime disturbs the vacuum the
+same way, by mixing in its one nearest neighbour (eigenvalue 2.8e-27).
+The prime decides how much is mixed in; the zero decides how much that
+admixture moves it. One direction of disturbance, for all primes.
+
+Reading: to keep the 13th zero right to 1e-10 one needs 2 placed to
+1e-31, 5 to 1e-25, 7 to 1e-16. These tolerances are of the order of the
+tiny eigenvalues: the same slack as for the zoom.
+
+Caution: this is the linear regime, valid for displacements below about
+1e-27. For large displacements of an outer prime the response is far
+smaller than linear (7 moved by 1e-2: first zero off by 1e-19, linear
+would say 1e-16), because the vacuum stops being the lowest state and
+decouples. The two regimes answer different questions.
+
+## The map, version 2: three windows (`sens_map.py`, delta = 1e-70, 150 digits)
+
+c = 14.2 at N = 70 failed numerically (lowest eigenvalues came out
+-1.7e-55 and -1.9e-56: the quadrature is not accurate enough at that
+depth; needs HP_DIGITS raised). Discarded. Windows 5.2, 8.2, 11.2:
+
+**The product structure holds at every window.** Column differences are
+constant down each table to a few tenths.
+
+Strength of each prime relative to 2 (log10), with its position ln p / L:
+
+| prime | c = 5.2 | c = 8.2 | c = 11.2 |
+|---|---|---|---|
+| 3 | -1.5 (0.67) | -1.1 (0.52) | -1.0 (0.46) |
+| 5 | -10.5 (0.98) | -6.5 (0.77) | -5.8 (0.67) |
+| 7 | | -15.6 (0.93) | -12.5 (0.81) |
+| 11 | | | -39 (0.99) |
+
+Sensitivity of the first zero to prime 2 (log10 per unit displacement):
++2.5, +2.7, +2.8. Of the 13th tick: +14.6, +21.3, +23.6.
+
+- **A prime that has just entered is fantastically weak** (5 at c = 5.2:
+  1e-10.5; 11 at c = 11.2: 1e-39), **and gains strength as the window
+  moves past it** (5: -10.5, -6.5, -5.8; 7: -15.6, -12.5). The inner
+  primes' strengths settle (3: -1.5, -1.1, -1.0).
+- **The first zero's sensitivity to prime 2 is stable, about 300 to 600
+  per unit**, although the gap above the vacuum falls from 8e-13 to
+  3e-42 over these windows. So the huge mixing with the neighbouring
+  state (amplitude about delta / gap) is almost exactly cancelled: the
+  neighbour's transform also nearly vanishes at the zeros, being a
+  near-null state itself. The product structure is consistent with "one
+  admixture, for all primes", but the size of the cells is not set by
+  the gap. Not understood beyond that.
+- The touchiness of the higher ticks grows with the window (13th: 14.6,
+  21.3, 23.6), as more of them become genuine zeros (2 pi c = 33, 52, 70).
+
+A caution about meaning: for a true Euler product, moving one prime
+would not move the zeros of zeta at all (it changes one factor). These
+sensitivities belong to the recipe on a window: they measure how the
+vacuum of the *moved* form, and hence its boundary rule, responds.
+
+## The map, version 2b: window 14 fixed, and the fade-in of each prime
+
+Window 14.2 fixed with `HP_DIGITS=80` (the default graded quadrature
+stops at 2^-180 = 7e-55; the vacuum there is 2.8e-65, the next state
+1.7e-57). Product structure holds there too.
+
+Strength of each prime relative to 2, from the first zero's row (log10),
+windows 3.3 to 14.2, all with `HP_PREC=600 HP_DIGITS=80`, delta = 1e-70:
+
+| c | 3 | 5 | 7 | 11 | 13 |
+|---|---|---|---|---|---|
+| 3.3 | -3.3 | | | | |
+| 4.2 | -2.2 | | | | |
+| 5.2 | -1.9 | -11.9 | | | |
+| 6.2 | -1.7 | -8.8 | | | |
+| 7.2 | -1.6 | -7.8 | -20.9 | | |
+| 8.2 | -1.4 | -7.2 | -16.5 | | |
+| 9.2 | -1.4 | -6.9 | -14.9 | | |
+| 11.2 | -1.3 | -6.4 | -13.2 | -39.9 | |
+| 14.2 | -1.3 | -6.1 | -12.2 | -28.8 | -42.1 |
+
+First zero's sensitivity to prime 2 itself: +2.1, +2.3, +2.5, +2.6, +2.7,
++2.7, +2.8, +2.8, +2.9 (slowly rising, about 125 to 800 per unit).
+
+**Is the fade-in one curve in c / p? No.**
+
+- Each prime settles to its own level, and the levels fall steeply with
+  the prime: about -1.3 (3), -6 (5), -12 (7), and 11 is still falling in
+  at -29. That is 2.4 to 3 decades per unit of p. (e^(2 pi) is 2.73
+  decades. Possibly the same leak rate as the tiny levels, per unit of p
+  instead of per unit of c; three points, not a claim.)
+- On entry a prime is weaker again by about the same number of decades
+  as its settled level: 5 enters at -11.9 and settles near -6; 7 enters
+  at -20.9 and settles near -12; 3 enters at -3.3 and settles at -1.3.
+  So roughly log(strength) = (settled level of p) x g(c / p), with g about
+  1.8 to 2.5 just after entry, 1.4 at c / p = 1.2, 1.2 at 1.5, 1 beyond 3.
+  This holds to 10 to 20% for 5 and 7 and worse for 3.
+
+So: **every prime fades in over about a doubling of the window, and
+bigger primes settle at exponentially smaller strengths.** In this
+recipe the low zeros are made by 2 and 3; 5 contributes a millionth, 7 a
+trillionth.
+
+## The map, version 3: larger windows by perturbation theory (`sens_fast.py`)
+
+One build of the form, its inverse, the vacuum by inverse iteration, and
+the exact derivative of the form from the shift operators in closed
+form. Reproduces `sens_map.py` at c = 14.2 to the digits printed
+(+2.87, +1.61, -3.16, -9.27, -25.92, -39.17) in 7 s instead of 65.
+
+| c | vacuum eigenvalue | first tick minus first zero | 2 | 3 | 5 | 7 | 11 | 13 | 17 | 19 | 23 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 14.2 | 2.8e-65 | 2.1e-61 | +2.87 | +1.61 | -3.16 | -9.27 | -25.92 | -39.17 | | | |
+| 18.2 | 3.6e-85 | 3.0e-81 | +2.92 | +1.71 | -2.83 | -8.48 | -22.35 | -30.97 | -56.54 | | |
+| 22.2 | 7.6e-104 | 6.9e-100 | +2.95 | +1.78 | -2.63 | -8.01 | -20.66 | -27.99 | -45.69 | -57.22 | |
+| 28.2 | 4.3e-130 | 4.3e-126 | +2.98 | +1.84 | -2.44 | -7.58 | -19.27 | -25.74 | -40.14 | -48.29 | -67.68 |
+
+(log10 of |d(first tick)/d(delta)| for each prime.)
+
+**1. The test of the tentative link: it fails.** There is no settled
+level and no constant fall per unit of p. Every prime keeps gaining
+slowly (5: -6.0, -5.8, -5.6, -5.4 relative to 2), and at c = 28.2 the fall
+per unit of p rises from 2.1 (3 to 5) to 4.9 (19 to 23). "2.73 decades
+per unit of p" was three points.
+
+**2. What does hold: one curve, in the right variables.** Write
+t = ln p / ln c (where the prime sits in the window) and measure the
+strength relative to 2 in units of the vacuum's own depth:
+h = log10(strength_p / strength_2) / log10(vacuum eigenvalue).
+
+| t | 0.33 | 0.41 | 0.48 | 0.52 | 0.58 | 0.63 | 0.67 | 0.72 | 0.77 | 0.83 | 0.88 | 0.91 | 0.95 | 0.98 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| h | 0.009 | 0.020 | 0.042 | 0.054 | 0.082 | 0.106 | 0.135 | 0.172 | 0.229 | 0.300 | 0.40 | 0.47 | 0.58 | 0.70 |
+
+Points from all four windows fall on it. Same t from different windows:
+t = 0.827: 0.300 (13 at c = 22.2) and 0.299 (11 at c = 18.2). t = 0.88:
+0.401 (13 at 18.2) and 0.396 (19 at 28.2). t = 0.77: 0.229 (11 at 22.2)
+and 0.222 (13 at 28.2).
+
+So **strength of a prime = (vacuum eigenvalue)^h(t)**, relative to 2: a
+prime at the very edge is as weak as the vacuum is deep, and one in the
+inner third has nearly full strength. The fade-in is a property of the
+position on the log ruler, the same for every prime and every window.
+
+**3. A by-product: the tiny level is the accuracy of the zeros.** The
+first tick misses the first zero by 7.3e3, 8.3e3, 9.1e3, 9.9e3 times the
+vacuum eigenvalue at the four windows. With primes up to 23 the recipe
+gives the first zero to 126 digits.
+
+The first zero's sensitivity to prime 2 itself creeps up: +2.87, +2.92,
++2.95, +2.98.
+
+## The formula for the fade-in: a prime reads the vacuum at sqrt(p)
+
+**Result.** For a prime with one power in the window,
+
+    strength_p  ~  (ln p / sqrt p) x p^nu x exp( -4 pi c (1 - sqrt(1 - p/c)) )
+
+with nu about 8 to 11 (fitted). The exponential alone removes all but a
+smooth remainder: over 21 points (c = 14.2 to 28.2, p = 5 to 23) the
+sensitivities span 65 decades (-3 to -68); after dividing by the weight
+and the exponential the remainder runs from 12 to 20 decades and is, to
+0.1 decade at the larger windows, a function of p alone
+(5: 12.03; 7: 13.01; 11: 14.58; 13: 15.32; 17: 16.93). With a power of p
+the fit is good to 0.5 decade rms.
+
+**Where it comes from (a sketch, not a derivation).**
+
+1. In the additive variable y (window [-lambda, lambda], c = lambda^2)
+   the vacuum is a prolate-type wave. Its WKB envelope, from the prolate
+   equation with small eigenvalue, is
+   phi(y) ~ exp( -2 pi c (1 - sqrt(1 - y^2/c)) ):
+   a bell exp(-pi y^2) in the middle, falling to exp(-2 pi c) at the end.
+2. The prime p compares the state at x with the state at p x. By the
+   symmetry x -> 1/x that is phi(y) phi(p / y), with y between
+   p / lambda and lambda.
+3. The product is largest at y = sqrt(p), where it is
+   exp( -4 pi c (1 - sqrt(1 - p/c)) ).
+
+So **the influence of a prime is the intensity of the vacuum at
+sqrt(p)**. Limits: for p far inside, exp(-2 pi p) (the "2.73 decades per
+unit of p" seen at first, which is right only there); for p at the edge,
+exp(-4 pi c), the depth of the vacuum itself (h -> 1). The collapse on
+h(ln p / ln c) of the previous section is this formula, approximately;
+the exact scaling variable is p / c.
+
+Not derived: the power nu (it should come from the prolate index of the
+vacuum, n + 1/2 per factor, and from the WKB prefactors; the fitted 8 to
+11 is larger than n = 6 would give), and primes with several powers in
+the window.
+
+## Pinning down the power of p (`fade_fit.py`)
+
+Instead of fitting a power, use the WKB wave of the prolate equation with
+its eigenvalue kept, chi ~ 2 pi c (2n + 1), prefactor included:
+
+    psi_n(y) ~ [ (4 pi^2 y^2 - 2 pi (2n+1)) (1 - y^2/c) ]^(-1/4)
+               x exp( - int sqrt( (4 pi^2 x^2 - 2 pi (2n+1)) / (1 - x^2/c) ) dx )
+
+and model strength_p = (ln p / sqrt p) psi_a(sqrt p) psi_b(sqrt p) x one
+constant per window. Scan of the index pairs (a, b), 21 points spanning
+65 decades:
+
+| indices | rms of the remainder (decades) |
+|---|---|
+| 6, 6 (best; any pair with a + b = 12 is as good) | 0.50 |
+| 2, 6 | 0.80 |
+| 2, 2 | 1.32 |
+| 0, 0 (the plain bell, no power) | 1.86 |
+
+**The power is that of the sixth prolate wave.** Only the sum of the two
+indices is determined (12), but 6 is the lowest index of the even ladder
+found in `shape_brainstorm.md` (n = 6, 10, 14, ...), so the natural
+reading is: the vacuum is the n = 6 member, and a prime reads its
+intensity at sqrt(p). In the bulk that is about p^6 exp(-2 pi p); the
+freely fitted power (8 to 11) was larger because near its turning point
+the wave is not a pure power.
+
+Remainders are within 0.7 decade except 23 at c = 28.2 (+1.6, close to
+the edge), and they still drift with the window (constants 2.9, 3.2,
+3.6, 4.4), so this is a good leading description, not an exact formula.
