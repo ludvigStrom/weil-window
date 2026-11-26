@@ -1,0 +1,8 @@
+eps = 2.5: wave fitted to the horn at two heights; misfit at a third height 0.0  (2 s)
+  reflection coefficient B/A from the wave: (0.804465436047 - 0.593999463136j)
+  xi(2 i eps)/xi(1 + 2 i eps):               (0.804465436047 - 0.593999463136j)   (modulus 1.0)
+  wave tabulated at 1152 heights  (128 s)
+  largest difference between the wave's transform and xi xi (after dividing out the Gamma factors): 4.55e-15;  largest imaginary part 1.94e-54
+  dark lines found in the wave:      11.63 16.64 18.52 22.52 23.51 27.53 27.90 30.43 32.93 35.11 35.42 38.42 40.09 40.82 43.42
+  zeta zeros plus and minus eps:     11.63 16.63 18.52 22.51 23.52 27.51 27.92 30.44 32.92 35.09 35.44 38.42 40.09 40.83 43.42
+  (133 s)

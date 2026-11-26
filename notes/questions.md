@@ -1,0 +1,660 @@
+# Questions the physical picture suggests (started 26 Nov evening)
+
+List agreed with Ludvig: (1) pressure of the gas, (2) entanglement
+entropy, (3) predict a level from the zeros alone, (4) close pairs of
+zeros, (5) self-mirrored states, (6) two mirrors at once, (7) heat
+capacity, (8) what radiates, (9) force on a prime's position. Order of
+attack: 3, then 2 and 6.
+
+## Q3: levels from the zeros alone. Answer: yes, exactly, and cheaply
+
+Weil's form is the sum over zeros. For odd real f on the window,
+Q(f) = 2 sum over gamma > 0 of |int f(x) sin(gamma x) dx|^2. In the sine
+basis Q = 2 A A^T with A[k, gamma] in closed form. So the ordinary
+spectrum needs only a list of zeros and a few lines of numpy.
+
+`level_from_zeros.py c N` (zeros below 2300 from the Riemann-Siegel
+formula in doubles):
+
+| c = 100.2: true form (ball arithmetic, N = 900) | from the zeros alone | state's median frequency |
+|---|---|---|
+| 0.1947 | 0.1944 | 651.9 |
+| 0.2471 | 0.2472 | 542.8 |
+| 0.2662 | 0.2663 | 725.5 |
+| 0.2824 | 0.2808 | 631.4 |
+| 0.3029 | 0.3028 | 897.4 |
+| 0.3076 | 0.3074 | 563.2 |
+| 0.3308 | 0.3306 | 788.3 |
+
+Same at c = 50.2 (0.2694 / 0.2691, 0.3364 / 0.3360, ...). This is also an
+independent check of `hp_block.py`: two unrelated computations of the
+same form agree to three or four digits. (The tiny eigenvalues cannot be
+got this way: they need the zeros exactly.)
+
+**Local model.** Keep only the modes within 25 of a gap's centre and the
+zeros within 120 of it: 0.2005 for the gap 650.67-653.65 (true 0.1947),
+0.315 for 896.63-899.22 (0.303), 0.357 for 787.47-790.06 (0.331). So a
+level is fixed to 3 to 8% by the zeros within about a hundred of its gap.
+
+**The bottom of the ordinary spectrum for c = 20 to 160**
+(`mu_from_zeros.py 2.0 c...`, zeros below 6000, one minute for 36
+windows; data `mu_from_zeros.json`):
+
+| windows c | gap in use | gap in mean spacings | level, from - to | level x sqrt(c)/2 |
+|---|---|---|---|---|
+| 20 | 107.2-111.0 | 1.75 | 0.44 | 0.99 |
+| 24-28 | 169.9-173.4 | 1.84 | 0.39 - 0.37 | 0.96 - 0.99 |
+| 32-36 | 279.2-282.5 | 1.96 | 0.40 - 0.39 | 1.14 - 1.17 |
+| 40-68 | 415.5-418.4 | 1.96 | 0.33 - 0.23 | 1.05 - 0.91 - 0.95 |
+| 72-108 | 650.7-653.6 | 2.20 | 0.24 - 0.194 - 0.20 | 1.03 - 0.97 - 1.05 |
+| 112-132 | 724.6-727.1 | 1.88 | 0.22 - 0.24 | 1.15 - 1.40 |
+| 136-148 | 1267.6-1270.1 | 2.15 | 0.24 - 0.21 | 1.41 - 1.28 |
+| 152-160 | 1055-1070 | 1.4 to 2.1 | 0.20 - 0.17 | 1.22 - 1.05 |
+
+- The level follows one gap for a stretch, improving as the window
+  lengthens, then hands over to another. A gap goes on serving for a
+  while after 2 pi c has passed it.
+- 2/lambda holds to 10% from c = 20 to 110 and is 15 to 40% too low from
+  112 to 150. Andrews-Connes-La Gatta's 0.19 to 0.20 at 150 is on our
+  curve (0.21 at 148, 0.198 at 152).
+- The gaps in use are 1.75 to 2.2 mean spacings wide.
+
+## Q6: two mirrors at once. Answer: the floors add
+
+`diver_floor.py N p1,p2 c...`: lowest eigenvalue with all powers of two
+primes left out.
+
+| primes out | sum of first-power floors (ln p / sqrt p) | sum of long-run floors | computed |
+|---|---|---|---|
+| 3 and 5 | -1.354 | -1.799 | -1.355 (even half, c = 24), -1.254 (odd) |
+| 5 and 7 | -1.455 | -2.062 | -1.385 (odd, c = 24), -1.205 (even) |
+| 2 and 3 | -1.124 | -1.378 | -1.252, -1.267 (c = 50, where 4 to 32 and 9, 27 are in) |
+
+The lowest level heads for the sum of the two single floors: a state can
+be its own image in both mirrors at once. No resonance beyond the sum
+(none is possible: the removed terms' norms add). Consistent with the
+mirrors being independent.
+
+## Q2: entanglement entropy. Not well posed as asked
+
+The entropy of the gas uses occupation numbers between 0 and 1, which
+are the prolate concentration eigenvalues, not the Weil eigenvalues (the
+ordinary Weil levels exceed 1 and grow like a logarithm). Computing it
+from the prolate values would only reproduce Eisler-Peschel's known
+result for a Fermi gas. Dropped unless a sensible map from Weil levels to
+occupations turns up.
+
+## Q3 continued: large windows (`mu_big.py`, zeros below 21000)
+
+Same computation, full sine basis up to 2 x 2 pi c (checked unchanged with
+4 x at c = 250), and at c = 1000 a band of modes 0.75 to 1.8 x 2 pi c
+(a band reproduces the full answer at c = 500: 0.0556 against 0.0555).
+"Lowest gap state" = lowest eigenvalue above 0.02 whose state sits above
+2 pi c.
+
+| c | lowest gap state | its gap (mean spacings) | at | 2/lambda | level x c |
+|---|---|---|---|---|---|
+| 100.2 | 0.194 | 650.67-653.65 (2.20) | 1.04 W | 0.200 | 19 |
+| 160.2 | 0.166 | near 1060 | | 0.158 | 27 |
+| 200.2 | 0.124 | 1331.83-1333.67 (1.57) | 1.06 W | 0.141 | 25 |
+| 250.2 | 0.107 | 2817.95-2820.49 (2.47) | 1.79 W | 0.126 | 27 |
+| 300.2 | 0.079 | 1975.08-1977.17 (1.92) | 1.05 W | 0.115 | 24 |
+| 400.2 | 0.069 | 2817.95-2820.49 (2.47) | 1.12 W | 0.100 | 27 |
+| 500.2 | 0.056 | 3824.54-3826.95 (2.46) | 1.22 W | 0.089 | 28 |
+| 1000.2 | 0.030 | 7005.10-7006.74 (1.83) | 1.11 W | 0.063 | 30 |
+
+- **The level keeps falling, and faster than 2/lambda.** From c = 160 to
+  1000 it is closer to 27/c than to 2/sqrt(c). 2/lambda is 15 to 40% too
+  low at 112-150, right near 160-200, and twice too high at 1000.
+  Eight points only; "27/c" is a description, not a law.
+- **There is no sharp line between ordinary and tiny at large c.** A
+  state in a given gap falls steadily as the window grows (gap 1975-1977:
+  0.110 at c = 250, 0.079 at 300, 0.058 at 400) and ends up among the
+  tiny ones once 2 pi c has passed it. Between 0.02 and 0.1 there are a
+  handful of states at every large window, some localised in a gap, some
+  broad ("fallers"). So "the bottom of the ordinary spectrum" needs a
+  definition before it can have an asymptotic law. How Andrews-Connes-
+  La Gatta condition theirs is the thing to read next.
+- Very wide gaps far above 2 pi c compete: at c = 250 the 2.47-spacing gap
+  at 1.79 W wins. Higher up, zeros are denser relative to the window's
+  resolution (ratio ln c / ln(gamma / 2 pi)), so a gap has to be wider to
+  serve.
+
+## Q9: the force on a prime's position. Answer: a sharp tent, peaked at the true prime
+
+`prime_move.py N c p delta...`: the prime p is replaced by a "prime" at
+x = p (1 + delta), weight ln x, powers x^k; nothing else changes. Lowest
+eigenvalue of each half (double precision, so the true value at delta = 0,
+far below 1e-15, reads as zero).
+
+Prime 7, window c = 14.2 (N = 100; N = 50 and 200 give the same slopes):
+
+| delta | position | lowest eigenvalue (even, odd) | per unit delta |
+|---|---|---|---|
+| -0.1 | 6.3 | -0.815, -0.760 | 8.2, 7.6 |
+| -0.01 | 6.93 | -0.137, -0.132 | 13.7, 13.2 |
+| -0.001 | 6.993 | -0.0134, -0.0135 | 13.4, 13.5 |
+| 0 | 7 | 0 | |
+| +0.00001 | 7.00007 | -0.000133, -0.000136 | 13.3, 13.6 |
+| +0.001 | 7.007 | -0.0145, -0.0137 | 14.5, 13.7 |
+| +0.01 | 7.07 | -0.141, -0.133 | 14.1, 13.3 |
+| +0.03 | 7.21 | -0.430, -0.428 | 14.3, 14.3 |
+| +0.1 | 7.7 | -0.642, -0.613 | 6.4, 6.1 |
+
+- **The lowest eigenvalue is -k |delta|: negative on both sides, linear
+  from the first step, a kink at the true position.** Positivity holds at
+  one point only. It is linear, not quadratic, because the form has many
+  near-zero states and the displacement acts on that whole near-null space
+  with both signs: whichever way the prime moves, some state gains.
+- The slope does not depend on the basis size, so it is a property of the
+  window, carried by the tiny states (not by high frequencies).
+- Saturates near the single-prime floor (-0.74 for 7) once the prime is
+  several percent away: by then it is "7 missing and a stranger present".
+
+Stiffness k (average of the two halves, right / left):
+
+| window c | prime 2 | 3 | 7 | 11 | 13 | 23 |
+|---|---|---|---|---|---|---|
+| 7.2 | | 7.9 / 5.8 | 0.01 / 0.003 | | | |
+| 14.2 | 47 / 37 | 25 / 27 | 14 / 13 | 13 / 10 | 7.7 / 5.2 | |
+| 28.2 | | 91 / 90 | 53 / 39 | | | 24 / 18 |
+| 56.2 | | | 123 / 115 | | | |
+
+- Stiffer for small primes, and growing with the window faster than
+  proportionally (prime 7: 14, 46, 119 at c = 14, 28, 56, roughly
+  c^1.5; three points). No formula yet.
+- A prime that has only just entered the window is hardly pinned at all
+  (7 at c = 7.2: 0.01), the same delay as the margin in `string.md`.
+- Physical reading: each prime sits at the tip of a tent, held from both
+  sides with a force that does not vanish at the equilibrium (like a bead
+  in a V-shaped groove, not a ball in a bowl), and a larger window holds
+  it harder.
+- Not checked against the literature. That positivity fails for wrong
+  primes is expected by everyone; the tent shape and its stiffness may or
+  may not have been computed.
+
+## How Andrews-Connes-La Gatta define mu (read 26 Nov, via a summarising fetch of arXiv:2611.13129, section 5.3, eq. (40), Table 7)
+
+mu^odd = minimum of the form over the odd Galerkin space, orthogonal to
+lambda^2 - 2 prolate vectors and with the pole functional zero: lambda^2 - 1
+conditions. So "ordinary" is defined **by count**, not by a threshold.
+They note (Courant-Fischer) mu^odd <= the lambda^2-th odd eigenvalue of the
+raw form; the (lambda^2 - 1)-th, "transitional", one is removed by the
+pole condition.
+
+Our raw spectra have exactly that shape: c - 2 eigenvalues below 0.02,
+then one transitional (0.04 to 0.06), then the rest. So their mu^odd is
+bounded above by our c-th eigenvalue:
+
+| c | our c-th odd eigenvalue (from zeros) | their mu^odd (Table 7) | 2/lambda | lambda x value |
+|---|---|---|---|---|
+| 24 | 0.390 | 0.383 | 0.408 | |
+| 28 | 0.374 | 0.361 | 0.378 | |
+| 32 | 0.400 | 0.395 | 0.354 | |
+| 36 | 0.387 | 0.377 | 0.333 | |
+| 40 | 0.331 | 0.332 | 0.316 | |
+| 50 | 0.269 | 0.270 | 0.283 | 1.91 |
+| 100 | 0.1944 | 0.194 | 0.200 | 1.94 |
+| 150 | 0.21 / 0.198 (148 / 152) | 0.194 | 0.163 | 2.4 |
+| 200 | 0.124 | not computed | 0.141 | <= 1.75 |
+| 250 | 0.0965 | | 0.126 | <= 1.53 |
+| 300 | 0.079 | | 0.115 | <= 1.37 |
+| 400 | 0.058 | | 0.100 | <= 1.15 |
+| 500 | 0.057 | | 0.089 | <= 1.28 |
+
+(Ours are at c + 0.2.) Where both exist they agree to a few percent, so
+the bound is nearly tight there. Their stated range is 1.6 <= lambda mu
+<= 2.5 for lambda^2 from 5 to 150. **Prediction: beyond 250 lambda mu
+drops below 1.6 and keeps falling**; this follows from their own
+inequality plus our eigenvalues, which need only the zeros. The earlier
+worry (no sharp line between ordinary and tiny) is answered by their
+count-based definition; note the c-th state at c >= 250 is often a state
+in a gap *below* 2 pi c (250: gap 1330.4-1331.8 at 0.85 W), not above.
+
+## Rigidity: moving all primes at once (`rigid.py`)
+
+Every prime p <= c moved to p (1 + d_p). To first order the lowest
+eigenvalue is lambda_min of sum d_p P_p on the near-null space V of the
+true form (P_p = derivative of the form, restricted to V). We maximise
+that over unit vectors d (concave, so local search suffices): if the
+maximum is negative, no direction keeps the form positive.
+
+c = 14.2, primes 2, 3, 5, 7, 11, 13, V = eigenvalues below 0.01 (13 even,
+12 odd states):
+
+- Each P_p alone has both signs (single-prime tents: 47/38, 27/28, 20/17,
+  15/14, 14/11, 10/7 per unit displacement).
+- A random direction: down to -53 per unit.
+- **Best direction: -0.765 per unit. Still negative, so the true
+  configuration is rigid, but 15 to 60 times softer than any single
+  move.** Checked on the true form: -7.6e-4 at size 0.001, -7.6e-3 at
+  0.01, exactly the first-order prediction, both halves.
+- **The soft direction is d_p proportional to ln p**: found
+  (0.158, 0.253, 0.373, 0.455, 0.529, 0.534), ln p normalised is
+  (0.153, 0.243, 0.356, 0.430, 0.531, 0.567). That is p -> p^(1+eps):
+  every log-position stretched by the same factor. It is the dilation of
+  the log axis, the one near-symmetry of the form; it fails only because
+  the archimedean part and the weights 1/sqrt(p) do not stretch with it
+  (equivalently: the zeros would move to real part 1/(2(1+eps))).
+
+With V = eigenvalues below 1e-7 only, the search instead returns "move
+the newest prime alone" (-0.12), and the first-order number is wrong by
+a factor 60 against the true form: the transitional states (1e-5 to
+1e-2) must be in V. c = 7.2 (N = 80): same picture, the newest prime 7
+is not yet held.
+
+### Rigidity, continued: the softness spectrum, and c = 28.2
+
+`rigid.py` now caches the derivatives (resumable) and, after the best
+direction, finds the best direction orthogonal to it, and so on.
+
+c = 14.2 (per unit displacement):
+
+| direction | softness | what it is |
+|---|---|---|
+| 1 | -0.77 | all primes together, proportional to ln p (overlap 0.9989) |
+| 2 | -7.9 | 5 up, 13 down |
+| 3 | -11.6 | 7 down, 11 up |
+| 4 | -14.7 | 5 down, 11 and 7 up |
+| 5 | -17.8 | 3 alone |
+| 6 | -39.1 | 2 alone |
+
+**One soft direction, then a tenfold jump.** The others are neighbouring
+primes moving against each other, hardest for the smallest primes.
+
+c = 28.2, nine primes, N = 130, V = 27 + 26 states: zoom direction found
+again, overlap with ln p 0.9998, softness -1.15 (true form at size 0.001:
+-1.03e-3 and -1.14e-3; prediction -1.15e-3); single primes 20 to 122,
+random directions down to -144. So from c = 14 to 28 the single-prime
+stiffness triples and the zoom softness grows by half: the separation
+widens with the window. (The orthogonal passes at c = 28 did not converge
+in the time available; Nelder-Mead in 9 dimensions is the wrong tool,
+use the subgradient or an SDP.)
+
+The state that falls under the zoom is built mostly from the least-small
+near-null states (the transitional ones, eigenvalues 1e-6 to 1e-14).
+
+Reasoning, not computed: the form is 2AA^T >= 0 for *any* real positions
+of the zeros, so sliding zeros along the line never breaks positivity.
+A prime move breaks it because discrete primes cannot reproduce such a
+slide. p -> p^(1+eps) is the one move of atoms that does slide all the
+zeros (gamma -> gamma/(1+eps)); it also shifts their real part to
+1/(2(1+eps)), and that shift, of size eps/2, is the small cost.
+
+### Where the cost of the zoom comes from (`zoom_decomp.py`)
+
+The guess "the cost is the zeros leaving the line by eps/2" was tested and
+is **wrong in emphasis**. (It also fails on paper: for a real test
+function a zero at real part 1/2 + eta contributes |F|^2 + O(eta^2); the
+first-order term cancels between gamma and -gamma.)
+
+Exact bookkeeping: stretching the test functions turns window c into
+c' = c^(1/(1+eps)), where the true form is positive. So
+Q_zoomed(c) = Q_true(c') + eps D, and D = D_smooth (the same difference
+with all primes removed: archimedean and pole terms, which do not
+stretch) + D_prime (prime weights: (1+eps) n^(-eps/2) instead of 1).
+
+c = 14.2, on the falling state, per unit eps:
+
+| | true form on c' | smooth terms | prime weights | total |
+|---|---|---|---|---|
+| zoom out, odd half (the one that falls first) | +0.01 | -3.62 | -0.06 | -3.67 |
+| zoom out, even half | +0.00 | -1.00 | -0.84 | -1.84 |
+| zoom in, even half (falls first) | +0.06 | -6.40 | +0.82 | -5.52 |
+| zoom in, odd half (CORRECTED 26 Nov: this half does not fall; lowest eigenvalue is +0.57 per unit of shrink) | | | | +0.57 |
+
+(Per unit eps; divide by |ln p vector| = 4.52 for "per unit displacement":
+0.81 out, 1.22 in, against 0.77 found by the search.)
+
+**The scale is held by the smooth background (the archimedean term and
+the pole term), not by the primes.** The primes among themselves hold the
+pattern; the place at infinity fixes the unit of length. The falling
+state is a near-null state of the true form on the shrunk window, as it
+should be.
+
+## Rigidity in the curve setting, and the comparison (`ff_rigid.py`, `rigid_weights.py`, `soft.py`)
+
+Toy: genus 2 curve y^2 = x^5 + x + 1 over F_3 (zeros at angles +-0.3041 pi,
++-0.6959 pi), window of r + 1 sites, Toeplitz form. Parameters: the numbers
+a_d of closed points of degree d = 1..r (a change of a_d changes p_n for
+all multiples n of d: a "prime" with its powers). Positions cannot move
+(degrees are integers), so this is the analogue of changing weights.
+
+| | 8 sites (4 null states) | 12 sites (8 null states) |
+|---|---|---|
+| exactly flat directions | 3 = 2g - 1 | 3 = 2g - 1 |
+| what they are | slide a zero along the circle; shift weight between zeros (each lies 100% in the flat space) | same |
+| directions that make the form strictly positive | yes (best +0.26 per unit) | yes (+0.065) |
+| the rest | -0.11 to -0.48 | -0.03 to -0.81 |
+| one degree alone | tent, 0.06 to 1.9 | tent, 0.01 to 2.2 |
+
+So for a curve the true data sit on the boundary of a convex set with
+interior: sliding zeros is free (other "curves"), smearing the zeros
+(all p_n shrunk towards the trivial background p_0 = 2g) is strictly
+allowed, and single points are pinned by tents just as primes are.
+
+Number field, c = 14.2, same analysis (subgradient search; it reproduces
+the earlier position spectrum):
+
+| parameters | flat directions | softest | spectrum |
+|---|---|---|---|
+| weights only (6) | 0 | -0.15 (the newest prime's weight) | -0.15, -0.44, -0.59, -0.64, -0.72, -0.85 |
+| positions only (6) | 0 | -0.77 (zoom) | -0.77, -7.9, -11.6, -14.7, -17.8, -39.1 |
+| both (12) | 0 | -0.027 (zoom in, with weights lowered) | -0.027, -0.24, ..., -0.94, -7.9, ..., -39.1 |
+
+- A single weight's tent has slope close to ln p / sqrt p (7: 0.74 / 0.73;
+  5: 0.72 / 0.72): changing a weight is removing a fraction of the prime.
+- All weights down together: -0.82. The background alone is not
+  positive, so there is no "smearing" direction. In the curve case the
+  background is 2g times the identity, which is.
+- **No flat direction and no allowed direction at all**, to first order.
+  (Strictly the form is positive definite, so there is an allowed ball,
+  of radius about smallest eigenvalue / slope: 1e-50 here. That is the
+  margin of `string.md`.)
+
+**The difference between the two settings, as measured:** a curve has
+neighbours (its zeros can slide, 2g - 1 free directions) and a positive
+background to retreat to. The primes, within these parameters, have
+neither: the nearest thing to a neighbour is the zoom, and the background
+itself is negative without them.
+
+Caveat: "these parameters" = positions and weights of the primes already
+in the window. New primes, or a changed background, are not in the search.
+
+## Literature pass before "other number systems" (26 Nov, search snippets only, nothing read in full)
+
+- **Groskin, arXiv:2607.02828** (July 2026): every value of the truncated
+  form is an exact, closed-form sum over the zeros (a "finite
+  Guinand-Weil dictionary"). **So our Q = 2AA^T "from the zeros alone" is
+  not new**; cite it in note v2. Whether he used it for mu or gaps: not
+  seen.
+- **Groskin, arXiv:2605.20224 and Zenodo 19546515**: independent
+  implementation of the Connes-van Suijlekom matrix; a partial extension
+  to L(s, chi_3) "shows convergence at c = 13, 17, 37 but an oscillating
+  positivity breakdown at c = 23, 29". Someone has tried another
+  L-function and hit trouble. Read before building ours.
+- **Bombieri, Remarks on Weil's quadratic functional I (2000)**: if
+  finitely many zeros are off the line, the number of negative eigenvalues
+  is exactly half their number (truncation large enough). A test for our
+  moved primes: count the negative eigenvalues.
+- **Burnol, math/9809119, math/0101068**: explicit formula for any number
+  field and Hecke character with all places on one footing; Weil
+  positivity checked under a support condition.
+- **Beurling primes**: Diamond-Montgomery-Vorhauer built a system where RH
+  fails; Broucke-Vindas (arXiv:2004.11501) one where it holds. So other
+  "prime systems" with zeros on a line exist, but with a different
+  integer-counting side (background).
+- Zenodo 20710075 (independent): prime contribution as a Loewner matrix,
+  "the primes cooperate". Suzuki arXiv:2606.09096 (screw function) unifies
+  Yoshida, Bombieri, Connes-Consani, CCM.
+- Not found: anyone moving primes continuously and measuring the tent, the
+  zoom direction, or a path between two number systems.
+
+## Bombieri's test: how many levels go negative (`neg_count.py`, c = 14.2)
+
+| move | negative eigenvalues, even / odd (of 13 / 12 near-null states) | sizes |
+|---|---|---|
+| prime 7 by +0.1% to +3% | 6 / 7 | spread, from -14 delta down to -1e-4 delta |
+| prime 7 by +10%, or -1% | 6 / 6 | |
+| prime 2 by +1% | 5 / 5 | |
+| zoom out (p -> p^1.001, p^1.01) | 11 / 12 | all nearly equal: -1.4 to -1.8 eps (one odd: -3.7 eps) |
+| zoom in (p -> p^0.99) | 1 / 0 | one even state, -5.7 eps |
+
+- Same counts at N = 200 and for every size of move: the count is a
+  property of the direction.
+- **One prime moved: half of the near-null states fall** (about c/2 per
+  half). In Bombieri's terms, as many zeros leave the line as the window
+  can see.
+- **Zoom out: all near-null states sink together, at one rate.** The
+  smooth-term mismatch acts on the near-null space as (almost) a multiple
+  of the identity.
+- **Zoom in: everything lifts, except one even state.** The odd half
+  stays positive. (This corrects the zoom table above, where a sign was
+  misread.) One even direction is the natural place for the pole: the
+  zoomed zeta has its pole at 1/(1+eps), the form has it at 1. If that
+  one direction is the pole direction, then zooming in is allowed on the
+  pole-free subspace. Not checked.
+
+## Groskin's papers (summarising fetch; first 100k characters of 2605.20224, abstract page of 2607.02828)
+
+- 2607.02828: Theorem 1 is the exact zero-sum representation of every
+  value of the truncated form (even vectors). Theorem 2 certifies
+  positivity against the archimedean cutoff. Nothing on mu, 2/lambda or
+  gaps between zeros in what was read.
+- 2605.20224: the chi_3 form works (16 to 28 digits at c = 13, 17, 37).
+  The single negative even eigenvalue at c = 23, 29 is, by the author's
+  own revision, an artifact of cutting the archimedean integral, gone at
+  larger cutoff. Bulk eigenvalues 2..101 reported Poisson-like. How the
+  form was modified for chi_3 was not in the part read.
+
+## Zoom in, with the pole direction removed (`zoom_pole.py`)
+
+Pole vectors as in ACL: 2 cosh(t/2) (even), 2 sinh(t/2) (odd).
+
+| move | negative, even / odd | falling state's overlap with the pole vector | negative without the pole direction | lowest eigenvalue without it |
+|---|---|---|---|---|
+| c = 14.2, zoom in 1% | 1 / 0 | 0.977 (even) | 0 / 0 | +3.8e-3, +5.8e-3 |
+| c = 14.2, zoom in 0.1% | 1 / 0 | 0.972 | 0 / 0 | +4.0e-4, +5.8e-4 |
+| c = 28.2, zoom in 1% | 1 / 0 | 0.967 | 0 / 0 | +2.3e-3, +2.7e-3 |
+| c = 14.2, zoom out 1% | 11 / 12 | 0.006 / 0.965 (odd: the pole falls too) | 11 / 11 | -0.018, -0.019 |
+| c = 28.2, zoom out 1% | 25 / 25 | 0.003 / 0.983 | 25 / 24 | -0.021, -0.021 |
+| c = 14.2, prime 7 by 1% | 6 / 7 | 0.04 / 0.07 | 6 / 6 | -0.14, -0.13 |
+
+**Confirmed: the one state that falls when the primes are zoomed in is
+the pole direction (97%). On the pole-free subspace, p -> p^(1-eps) keeps
+the form positive, and makes it strictly positive: every near-null level
+lifts to at least about 0.25 to 0.4 eps.** Zooming out does the opposite:
+all near-null levels sink together at about 1.8 eps (c = 14) to 2.1 eps
+(c = 28), and the pole direction switches halves (odd).
+
+Reasoning, not computed: the archimedean term is logarithmic in frequency
+(symbol about log |omega|), so stretching the frequency axis by 1 + eps
+changes it by a constant times eps: a multiple of the identity. That is
+why the whole near-null space moves rigidly. So to first order
+"primes zoomed by eps" = "true form on a slightly different window, plus
+a constant times eps, plus a pole term". The constant has a sign, which
+is why one direction is allowed and the other is not; and the tiny
+eigenvalues measure how much zoom-out the true primes could tolerate.
+
+## The smallest level as zoom slack (`zoom_slack.py`, small windows where doubles resolve it)
+
+Zoom p -> p^(1+eps); critical eps where the lowest eigenvalue of a half
+reaches zero, measured by bisection, against lowest eigenvalue / its own
+first-order rate.
+
+| c | half | lowest eigenvalue | rate per unit zoom-out | predicted critical zoom | measured | ratio |
+|---|---|---|---|---|---|---|
+| 2.6 | odd | 7.04e-4 | 0.960 | +7.333e-4 | +7.325e-4 | 0.999 |
+| 3.3 | odd | 8.06e-7 | 0.949 | +8.490e-7 | +8.487e-7 | 1.000 |
+| 4.2 | odd | 5.95e-11 | 0.934 | +6.372e-11 | +6.370e-11 | 1.000 |
+| 2.6 | even | 3.31e-6 | -0.117 | -2.838e-5 | -2.817e-5 | 0.993 |
+| 3.3 | even | 2.05e-9 | -0.183 | -1.116e-8 | -1.113e-8 | 0.997 |
+
+- **Odd half: the smallest eigenvalue is the zoom-out the primes can
+  take, almost one for one** (rate 0.93 to 0.96, close to the 1 expected
+  from a logarithmic symbol).
+- **Even half: the lowest state moves the other way** (it is the
+  pole-like state): it limits zooming *in*, at lowest eigenvalue / 0.12
+  to 0.18.
+- So with the pole direction kept, the scale is pinned from both sides,
+  and the allowed interval is [-even level / 0.15, +odd level / 0.95]:
+  [-2.8e-5, +7.3e-4] at c = 2.6, [-1.1e-8, +8.5e-7] at c = 3.3. It closes
+  as fast as the smallest eigenvalues fall.
+
+## How sharply does a window fix the scale of the primes?
+
+Zoom slack = smallest odd eigenvalue / rate. Smallest eigenvalues from
+the stored ball-arithmetic runs (`ladder_track.json`, `ladder_fine.json`):
+
+| c | smallest odd eigenvalue | smallest even eigenvalue | odd: factor per unit of c |
+|---|---|---|---|
+| 2.2 | 1.8e-2 | 2.3e-4 | |
+| 3.2 | 2.2e-6 | 6.1e-9 | 8.2e3 |
+| 4.2 | 5.8e-11 | 9.7e-14 | 3.8e4 |
+| 5.2 | 1.1e-15 | 9.8e-19 | 5.1e4 |
+| 6.2 | 1.3e-20 | 9.5e-24 | 8.6e4 |
+| 7.2 | 1.8e-25 | 6.0e-29 | 7.6e4 |
+| 8.2 | 1.5e-30 | 5.0e-34 | 1.2e5 |
+
+The factor per unit of c climbs towards e^(4 pi) = 2.9e5, the decay rate
+of the Slepian (prolate) deficiency that Connes-Consani and ACL tie the
+tiny eigenvalues to. So:
+
+**a window up to c fixes the overall scale of the primes to a relative
+precision of about e^(-4 pi c) times a slowly varying factor: 1e-6 at
+c = 3, 1e-15 at c = 5, 1e-30 at c = 8.** The play in the scale is the
+uncertainty-principle leakage of the window.
+
+Status: the equality slack = eigenvalue / 0.95 is measured only up to
+c = 4.2. Beyond, the rate is not measured for the lowest state itself;
+on the whole near-null space at c = 14.2 the rates lie between 1.4 and
+1.8 (pole: 3.7), so the slack is the smallest eigenvalue within a factor
+of about 4. The zoom-in side (even half) is measured to c = 3.3 only and
+involves the pole state; no law claimed.
+
+## First look at the pattern stiffness (arithmetic on existing numbers, 26 Nov)
+
+Guess: moving prime p shifts its terms at k ln p by k times the
+displacement, so the natural size of the derivative is
+S_p = sum over powers p^k <= c of k ln p / p^(k/2), times the highest
+frequency the near-null states carry, 2 pi c.
+
+| c | p | S_p | 2 pi c S_p | measured k | ratio |
+|---|---|---|---|---|---|
+| 14.2 | 2 | 1.92 | 171 | 47 / 37 | 0.25 |
+| 14.2 | 3 | 1.37 | 122 | 25 / 27 | 0.21 |
+| 14.2 | 7 | 0.735 | 66 | 14 / 13 | 0.21 |
+| 14.2 | 11 | 0.723 | 64 | 13 / 10 | 0.18 |
+| 14.2 | 13 (newest) | 0.711 | 63 | 7.7 / 5.2 | 0.10 |
+| 28.2 | 3 | 2.00 | 354 | 91 / 90 | 0.26 |
+| 28.2 | 7 | 0.735 | 130 | 53 / 39 | 0.35 |
+| 28.2 | 23 (newest) | 0.654 | 116 | 24 / 18 | 0.18 |
+| 56.2 | 7 | 1.29 | 455 | 123 / 115 | 0.26 |
+
+So k_p is about a quarter of 2 pi c S_p, within a factor 1.5, except for
+a prime that has just entered. That accounts for both trends (small
+primes have more powers in the window; everything scales with the band
+limit 2 pi c). The "c^1.5" seen earlier was three points and is replaced
+by this. Not derived: the factor of about 1/4, and its scatter.
+
+## The stiffness explained (`stiff_profile.py`)
+
+The term of a prime power at log-position a is -w A_a, with
+A_a(f, g) = int f(u) g(u+a) + g(u) f(u+a) du over the stretch of the
+window where both points are inside. Checked against the form's own
+matrices: weight derivative = -w A_a to 1e-12; position derivative
+= -w (dA_a/da + (1/a - 1/2) A_a) to 1e-5 on the near-null space V.
+
+So, exactly:
+
+- **weight tent of a prime = w x extreme eigenvalues of A_a on V**
+- **position tent = w x extreme eigenvalues of dA_a/da on V** (one power
+  in the window; the weight part is negligible)
+
+Predicted against measured position tents: c = 14.2: 5: 19.8 / 16.5
+(measured 19.8 / 16.5); 7: 14.8 / 13.6 (14.8 / 13.6); 11: 13.8 / 11.4
+(13.8 / 11.4); 13: 9.8 / 7.4 (9.8 / 7.4). c = 28.2: 7: 52.9 / 40.3
+(53 / 39); 23: 24.8 / 19.6 (24.8 / 19.6).
+
+**Weights.** The extremes of A_a on V are, to three or four digits,
++-2 cos(pi / (n + 1)) with n = number of steps of length a that fit in
+the window: 1.000 for a > L/2, 1.414 for L/3 < a < L/2, 1.618 for
+L/4 < a < L/3, 1.732, ... These are the norms of a hop on a chain of n
+sites (the truncated shift). So the near-null space contains the
+extremal vectors of the shift, and a prime beyond sqrt(c) has weight tent
+exactly ln p / sqrt p. Only in the last fifth of the window does the
+value drop below 1 (0.8 to 0.65 at a/L = 0.9 to 0.95): the newest primes
+are not yet fully felt, the delay of `string.md`.
+
+**Positions.** max |dA_a/da| on V, in units of 2 pi c:
+
+| a / L | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 0.95 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| c = 14.2 | 0.53 | 0.56 | 0.65 | 0.62 | 0.43 | 0.34 | 0.28 | 0.29 | 0.25 | 0.23 |
+| c = 28.2 | 0.86 | 0.60 | 0.54 | 0.61 | 0.50 | 0.42 | 0.46 | 0.22 | 0.33 | 0.20 |
+
+A falling, bumpy profile, similar at both windows: about 0.6 to 0.8
+near the centre down to 0.2 to 0.3 at the far end. The "quarter" of the
+previous section is its value over the outer half. So the stiffness of a
+prime is w x 2 pi c x g(ln p / ln c), with g this profile; small primes
+are stiffer because g is larger there and because their powers add.
+The profile is a property of the near-null states alone (how much of
+them, and how fast-varying, sits a apart), not of the primes.
+
+## Chain model: tried, failed by the test set beforehand (`chain_model.py`, c = 14.2)
+
+Goal stated first: ~25 sites along the window, each prime a link between
+sites ln p apart, background on-site; success = at least 80% of each
+prime's action on links of the right length and a mostly diagonal
+background.
+
+Sites = eigenvectors of the position operator compressed to the near-null
+space (the most localised basis it allows).
+
+| prime power | share on links of the right length | same in a random basis |
+|---|---|---|
+| 2 | 0.45 | 0.12 |
+| 3 | 0.39 | 0.02 |
+| 4 | 0.33 | 0.04 |
+| 5 | 0.32 | 0.01 |
+| 7 | 0.24 | 0.01 |
+| 9 | 0.24 | 0.00 |
+| 8, 11, 13 | 0.00 | 0.00 |
+
+Background: 53% on the diagonal, 16% on nearest neighbours.
+
+**Failed.** Far better than chance, far short of 80%. Reasons visible in
+the output:
+
+- The sites are not localised: each site's wave is 0.27 to 0.75 wide,
+  against a spacing of 0.04 to 0.19. Twenty-five smooth functions cannot
+  be turned into twenty-five points.
+- The sites only reach +-1.08 in a window of +-1.33, so nothing is 2.08
+  or more apart: the largest prime powers (8, 11, 13) link the two very
+  ends of the window, beyond the outermost sites.
+- The "hop on a chain of n sites" found for the weights is true prime by
+  prime (slices of the window a apart), but each prime has its own
+  chain, with a different step. There is no single set of sites that
+  serves all of them, because the steps ln 2, ln 3, ln 5... are
+  incommensurable.
+
+So no small hopping model in position. If there is a small model it is
+not labelled by place.
+
+## Chain model, second attempt: sites labelled by frequency (`pitch_model.py`, c = 14.2)
+
+Test stated first: at least 80% of each prime power's action on-site, and
+on-site values within 10% of 2 (1 - a/L) cos(nu a).
+
+| | even half | odd half |
+|---|---|---|
+| background on-site | 0.87 | 0.95 |
+| 2 | 0.80 | 0.68 |
+| 3 | 0.76 | 0.67 |
+| 4 | 0.43 | 0.72 |
+| 5 | 0.60 | 0.61 |
+| 7 | 0.57 | 0.38 |
+| 8, 9 | 0.51, 0.44 | 0.34, 0.33 |
+| 11 | 0.32 | 0.28 |
+| 13 | 0.15 | 0.13 |
+
+On-site values miss the cosine by 0.3 to 0.5 on a range of +-1.
+
+**Failed as stated, but half of it works.**
+
+- The background is on-site in frequency (87 to 95%), with values rising
+  like a logarithm from negative (-1.7, -0.5 at the lowest sites) to +2.3.
+  That is the archimedean symbol, seen directly.
+- Small primes are mostly on-site (2 and 3: 67 to 80%). Large primes are
+  not (13: 15%). Their cosine has period 2 pi / ln p, about 2.4 to 3,
+  which is the spacing of the sites: it cannot be resolved as a value
+  per site.
+- The odd sites at 2.4, 4.8, 7.2, 9.6, 12.0 are single Fourier modes, all
+  below the first zero 14.13. Sites reach 60 only, of 89. They do not sit
+  mid-gap between zeros.
+
+Together with the position attempt: small primes are frequency-like
+(a potential), the primes near the size of the window are place-like
+(they join its two ends), and no single labelling makes all of them
+simple. The near-null space is a phase-space object: about 25 cells,
+neither places nor pitches.

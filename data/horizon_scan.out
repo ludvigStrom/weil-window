@@ -1,0 +1,45 @@
+c = 6.5, s = 0.012, states 5 6 7
+  depth 0.0400 (c e^-depth = 6.245) |   -0.002    -0.003    -0.002
+  depth 0.0500 (c e^-depth = 6.183) |   -0.000     0.001     0.003
+  depth 0.0600 (c e^-depth = 6.121) |   -0.001     0.001     0.004
+  depth 0.0700 (c e^-depth = 6.061) |   -0.006    -0.005    -0.002
+  depth 0.0800 (c e^-depth = 6.000) |   -0.019    -0.023    -0.025
+  depth 0.0900 (c e^-depth = 5.941) |    0.007     0.009     0.007
+  depth 0.1000 (c e^-depth = 5.881) |   -0.000     0.001    -0.002
+  depth 0.1100 (c e^-depth = 5.823) |   -0.000    -0.000    -0.003
+  depth 0.1200 (c e^-depth = 5.765) |    0.000     0.000    -0.002
+  depth 0.1300 (c e^-depth = 5.708) |    0.000     0.000     0.000
+  depth 0.1400 (c e^-depth = 5.651) |    0.001     0.000     0.003
+  depth 0.1500 (c e^-depth = 5.595) |    0.001    -0.000     0.003
+  depth 0.1600 (c e^-depth = 5.539) |    0.000    -0.000     0.003
+  depth 0.1700 (c e^-depth = 5.484) |    0.000    -0.001     0.002
+  depth 0.1800 (c e^-depth = 5.429) |    0.006     0.010     0.012
+  depth 0.1900 (c e^-depth = 5.375) |   -0.001    -0.003    -0.005
+  depth 0.2000 (c e^-depth = 5.322) |   -0.001    -0.004    -0.007
+  depth 0.2100 (c e^-depth = 5.269) |   -0.001    -0.001    -0.005
+  depth 0.2200 (c e^-depth = 5.216) |    0.012     0.019     0.017
+  depth 0.2300 (c e^-depth = 5.164) |   -0.005    -0.008    -0.013
+  depth 0.2400 (c e^-depth = 5.113) |    0.000     0.001     0.000
+  depth 0.2500 (c e^-depth = 5.062) |   -0.013    -0.016    -0.012
+  depth 0.2600 (c e^-depth = 5.012) |    0.055     0.086     0.084
+  depth 0.2700 (c e^-depth = 4.962) |    0.045     0.046     0.045
+  depth 0.2800 (c e^-depth = 4.913) |   -0.002    -0.002     0.001
+  depth 0.2900 (c e^-depth = 4.864) |   -0.004    -0.008    -0.007
+  depth 0.3000 (c e^-depth = 4.815) |    0.001     0.002     0.002
+c = 6.5, s = 0.012, states 5 6 7: detector exactly at the depths where images of the two edges should sit, and halfway between as controls
+  top edge by 2 (1st order)  depth 0.6931 |   0.058    0.064    0.064 | product of weights 0.490
+  top by 5/4 (2nd)           depth 0.2231 |   0.009    0.011    0.009 | product of weights 0.249
+  top by 4/3 (2nd)           depth 0.2877 |   0.007    0.009    0.011 | product of weights 0.220
+  top by 3/2 (2nd)           depth 0.4055 |   0.010    0.013    0.014 | product of weights 0.311
+  top by 5/3 (2nd)           depth 0.5108 |   0.012    0.015    0.014 | product of weights 0.457
+  top by 5/2 (2nd)           depth 0.9163 |   0.010    0.013    0.012 | product of weights 0.353
+  top by 6/5 (3rd)           depth 0.1823 |   0.004    0.005    0.007 | product of weights 0.224
+  bottom by 6 = 2x3 (2nd)    depth 0.0800 |  -0.020   -0.024   -0.026 | product of weights 0.622
+  bottom by 5 (1st)          depth 0.2624 |  -0.078   -0.084   -0.080 | product of weights 0.720
+  bottom by 4 (1st)          depth 0.4855 |  -0.044   -0.048   -0.049 | product of weights 0.347
+  bottom by 3 (1st)          depth 0.7732 |  -0.068   -0.073   -0.073 | product of weights 0.634
+  control                    depth 0.1400 |   0.001    0.000    0.003 | product of weights 0.000
+  control                    depth 0.3400 |  -0.000    0.000   -0.001 | product of weights 0.000
+  control                    depth 0.4500 |  -0.000   -0.001   -0.000 | product of weights 0.000
+  control                    depth 0.6000 |  -0.000    0.000   -0.001 | product of weights 0.000
+  control                    depth 0.8500 |   0.000   -0.000    0.002 | product of weights 0.000
