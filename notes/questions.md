@@ -324,9 +324,9 @@ all multiples n of d: a "prime" with its powers). Positions cannot move
 |---|---|---|
 | exactly flat directions | 3 = 2g - 1 | 3 = 2g - 1 |
 | what they are | slide a zero along the circle; shift weight between zeros (each lies 100% in the flat space) | same |
-| directions that make the form strictly positive | yes (best +0.26 per unit) | yes (+0.065) |
-| the rest | -0.11 to -0.48 | -0.03 to -0.81 |
-| one degree alone | tent, 0.06 to 1.9 | tent, 0.01 to 2.2 |
+| directions that make the form strictly positive | yes (best +0.33 per unit) | yes (+0.05) |
+| the rest | -0.13 to -0.62 | -0.05 to -1.16 |
+| one degree alone | tent, 0.06 to 2.0 (except degree 4 downwards, which helps: +0.27) | tent, 0.02 to 2.3 |
 
 So for a curve the true data sit on the boundary of a convex set with
 interior: sliding zeros is free (other "curves"), smearing the zeros
@@ -357,6 +357,11 @@ neighbours (its zeros can slide, 2g - 1 free directions) and a positive
 background to retreat to. The primes, within these parameters, have
 neither: the nearest thing to a neighbour is the zoom, and the background
 itself is negative without them.
+
+Correction (26 Nov, late): the first run of `ff_rigid.py` used angles
+0.2677 pi and 0.6177 pi, not the curve's 0.3041 pi and 0.6959 pi. The
+table above is the rerun with the right angles; the structure (3 flat
+directions, an allowed open set, tents) is the same for both.
 
 Caveat: "these parameters" = positions and weights of the primes already
 in the window. New primes, or a changed background, are not in the search.
