@@ -1,151 +1,143 @@
-# weil-window
+# Weil Window
 
 Numerical experiments on Weil's quadratic form restricted to a finite
-window [1/λ, λ] (write c = λ²), the form whose positivity for all windows
-is equivalent to the Riemann hypothesis.
+window [1/λ, λ] (write c = λ²), the form whose positivity for every
+window is equivalent to the Riemann hypothesis.
 
-This is a hobby project. I am not a mathematician. The work was done in
-conversation with an AI assistant (Claude), which wrote the code and most
-of the text; I chose the questions and checked what I could. Nothing here
-is a proof of anything, and mistakes are possible.
+**What this is.** Observations about a known construction (Connes,
+Consani, Moscovici and co-authors), each with its evidence and its
+limits. **What it is not.** A proof of anything, or progress towards one
+beyond describing more precisely where the difficulty sits. Everything
+is computed on finite windows; the hypothesis is the statement about
+every window, and nothing here bridges that.
 
-Start with [`notes/explain_it_like_im_5.md`](notes/explain_it_like_im_5.md)
-for the whole story in plain words. The working log, with every number
-and every dead end, is [`notes/questions.md`](notes/questions.md).
+I am not a mathematician. The work was done in conversation with an AI
+assistant (Claude), which wrote the code and most of the text; I chose
+the questions. Several explanations offered along the way were wrong and
+are listed in the notes. The literature was checked lightly, so
+"possibly new" means only that I did not find it.
 
-There are two observations.
+- Plain-words account: [`notes/explain_like_feynman.md`](notes/explain_like_feynman.md)
+  (or the simpler [`notes/explain_it_like_im_5.md`](notes/explain_it_like_im_5.md))
+- Working log with every number and every dead end: [`notes/questions.md`](notes/questions.md)
+- What the picture says the system is: [`notes/clock_and_form.md`](notes/clock_and_form.md)
 
-## 1. The bottom of the ordinary spectrum sits in gaps between zeros
+## Six findings
 
-The form has about 2c extremely small eigenvalues (Connes and Consani)
-and then an ordinary part. Andrews, Connes and La Gatta
-([arXiv:2611.13129](https://arxiv.org/abs/2611.13129)) find that the
-bottom of the ordinary part, μ_λ, is close to 2/λ, with fluctuations of
-about 20%, for λ² from 5 to 150, and list explaining this as open.
+Write ε for the lowest eigenvalue of a half of the form and call its
+eigenvector the vacuum. "Ticks" are the real zeros of the vacuum's
+Fourier transform, which approximate the zeros of zeta (Connes, Consani,
+Moscovici, arXiv:2511.22755).
 
-What the computations here show:
+**1. The bottom of the ordinary spectrum sits in gaps between zeros.**
+The lowest non-minuscule eigenstates are wave packets in wide gaps
+between consecutive zeros near 2πc. Since μ^odd of Andrews, Connes and
+La Gatta (arXiv:2611.13129) is at most the c-th odd eigenvalue of the raw
+form, which needs only a list of zeros (Groskin, arXiv:2607.02828):
 
-- **The lowest ordinary eigenstates are wave packets sitting in wide gaps
-  between consecutive zeta zeros near 2πc.** At c = 100 it is one state at
-  frequency 652, between the zeros 650.67 and 653.65. As the window grows
-  the level follows one gap for a while, then hands over to another.
-- **These levels need only a list of zeros.** For an odd test function
-  the form is twice the sum over zeros of the squared sine transform at
-  the zero, so in a sine basis it is 2AAᵀ with A in closed form. (That the
-  truncated form is an exact sum over zeros is in A. Groskin,
-  [arXiv:2607.02828](https://arxiv.org/abs/2607.02828); here it is only
-  used.) It reproduces a ball-arithmetic computation of the form to three
-  or four digits.
-- **A prediction.** Their μ^odd is defined by removing λ² − 1 directions,
-  so it is at most the λ²-th odd eigenvalue of the raw form:
-
-| λ² | λ²-th odd eigenvalue, from the zeros | their μ^odd | 2/λ | λ·μ^odd at most |
+| c | c-th odd eigenvalue | their μ^odd | 2/λ | λ·μ^odd at most |
 |---|---|---|---|---|
-| 28 | 0.374 | 0.361 | 0.378 | |
 | 50 | 0.269 | 0.270 | 0.283 | |
 | 100 | 0.1944 | 0.194 | 0.200 | |
-| 150 | about 0.20 | 0.194 | 0.163 | |
 | 250 | 0.097 | | 0.126 | 1.53 |
-| 300 | 0.079 | | 0.115 | 1.37 |
 | 500 | 0.057 | | 0.089 | 1.28 |
 
-  Their reported range is 1.6 ≤ λμ ≤ 2.5. If these numbers are right,
-  λμ leaves that range beyond λ² = 250, and 2/λ is a description of the
-  range computed so far, not the long-run rule.
+Prediction: λ·μ_λ leaves their observed range 1.6 to 2.5 beyond c = 250.
+*Limits:* an upper bound beyond c = 150; their values were read through
+a summarising tool and should be checked against their Table 7.
 
-```
-cd data
-python3 ../scripts/level_from_zeros.py 100.2 900        # from zeros vs the stored ball-arithmetic run
-python3 ../scripts/mu_from_zeros.py 2.0 100.2 148.2     # lowest ordinary level and its gap (zeros to 6000)
-python3 ../scripts/mu_big.py 0 2 3.2 500.2              # large windows (zeros to 21000)
-```
+**2. The dilation is the only soft way to move the primes, and ε is its
+slack.** Move a prime p to p(1+δ): the lowest eigenvalue is −k|δ|, on
+both sides. Over all joint moves a blind search finds none that keeps
+positivity and exactly one that is ten times softer than the rest:
+δ_p ∝ ln p, i.e. p → p^(1+η) (overlap with ln p 0.9989 at c = 14.2,
+0.9998 at 28.2). Its cost is archimedean. The zoom-out at which
+positivity breaks equals the smallest odd eigenvalue over a rate close
+to 1 (7.333e-4 predicted, 7.325e-4 measured at c = 2.6; same to 0.1% at
+3.3 and 4.2). *Limits:* first order; primes already in the window.
 
-Caveats: beyond 150 this is an upper bound and is not shown to stay
-tight; odd half only; windows at c + 0.2; zeros from the Riemann–Siegel
-formula in double precision; their numbers were read through a
-summarising tool and should be checked against the paper.
+**3. One offset law and one kernel for the ticks.** t_n = γ_n + K_n·ε,
+with K_n tending to a classical number, about 1/(γ_n Ξ'(γ_n)²) (first
+zero: measured/limit = 1 − 6.0/c at four windows). A prime power at
+lag ln q changes each tick by K_n times the change of ε, which is the
+vacuum's autocorrelation at that lag (0.998 of the response at the edge
+of the window, over a hundred decades). Near primes follow from
+Riemann's Φ alone to 3–8%. *Limits:* first order; a sketch plus tests.
 
-## 2. Moving the primes
+**4. ε against the window: a kick per prime and a note per prime.** Over
+322 windows from c = 4 to 24, ε falls steadily; each prime entering
+raises the rate of fall by about a decade per unit (5, 7, 11, 13, 17, 19,
+23: yes; 6, 10, 12, 14, 15, 18, 20, 21, 22: no); and there are sharp
+tones at q − 1/q cycles per unit of c for a mirror at q (2 → 1.50,
+3 → 2.65, 4 → 3.74), with pair tones at ratios (3/2, 5/2, 5/3). The
+zeros leave no trace in this curve. *Limits:* tone values sit 0.2–0.7%
+below the formula; two faint lines unidentified.
 
-What happens to the form when the primes are not where they are?
+**5. The same in two other number systems.** The form for the Dirichlet
+characters mod 4 (no prime 2) and mod 3 (no prime 3) is positive, has
+the ladder of tiny eigenvalues, and its ticks are the zeros of the
+L-function to 27 and 37 digits. Kicks follow the sign of χ(p). The tone
+at 1.5 is present without the prime 3 and absent without the prime 2;
+the tone at 2.65 the other way round. *Limits:* two characters.
 
-- **A tent.** Move one prime p to p(1+δ): the lowest eigenvalue is
-  −k·|δ|, negative on both sides, linear from the first step. Positivity
-  holds at the true position only. Exactly, k = (ln p/√p) × the extreme
-  eigenvalue, on the near-null states, of the derivative of the shift
-  operator at distance ln p.
-- **One soft direction.** A blind search over all joint moves of the
-  primes finds no direction that keeps positivity, and exactly one that is
-  ten times softer than the rest: every prime moved in proportion to
-  ln p, that is p → p^(1+ε), the dilation of the log axis.
-- **The background sets the scale.** The cost of that zoom comes almost
-  entirely from the archimedean and pole terms, which do not stretch.
-  Zooming out sinks all near-null levels together; zooming in lifts them
-  all except one state, which is the pole vector (97%).
-- **The tiny eigenvalues are zoom slack.** The smallest odd eigenvalue,
-  divided by a rate close to 1, is the zoom-out at which positivity
-  breaks, checked to 0.1% at c = 2.6, 3.3, 4.2. So a window up to c fixes
-  the overall scale of the primes to about e^(−4πc).
-- **Curves are different.** The same test on the window form of a curve
-  over a finite field (where positivity is Weil's theorem) finds 2g − 1
-  exactly free directions and an open set of allowed ones. The primes,
-  within the moves tried, have none.
+**6. A window-only estimate of a tick's distance from its limit.** With
+B_n = t_n P_n ε / v̂'(t_n)², P_n = Σ v_m²/(t_n² − ω_m²), everything
+computed on the window: (t_n − γ_n)/B_n lies between 1 and
+1 + 0.0035·(γ_n N/c)² in all 64 cases tried (three systems, four zeros,
+sixteen windows). A conjecture to aim for. *Limits:* the identity behind
+it assumes the zeros are real; it describes the convergence if the
+hypothesis holds, it does not prove it.
 
-```
-cd data
-HP_PREC=128 python3 ../scripts/prime_move.py 100 14.2 7 1e-3 -1e-3 1e-2   # the tent
-HP_PREC=128 python3 ../scripts/rigid.py 100 14.2                          # softest direction, softness spectrum
-HP_PREC=128 python3 ../scripts/zoom_pole.py 100 14.2 0 -1e-2 1e-2         # zoom in / out, with and without the pole
-HP_PREC=128 python3 ../scripts/zoom_slack.py 60 3.3                       # smallest eigenvalue against critical zoom
-python3 ../scripts/ff_rigid.py 3 7 0.3041 0.6959                          # the curve toy
-```
-
-Caveats: windows 14.2 and 28.2 (2.6 to 4.2 for the slack test), one
-curve; first-order tests, so small moves only; only primes already in the
-window are moved. That wrong primes break positivity is expected by
-everyone; a light literature search found nobody measuring it this way,
-which is not the same as nobody having done it.
-
-Two attempts to reduce the near-null states to a small hopping model (by
-place, then by frequency) failed by tests fixed beforehand; see the log.
-
-## Requirements
+## Reproducing it
 
 Python 3.10 or later with `python-flint`, `mpmath`, `numpy`, `scipy`.
 Scripts read and write in the current folder, so run them from `data/`.
-`rigid.py` writes a cache (`rigid_P_*.npz`, not in the repository) that
-`rigid_weights.py`, `stiff_profile.py`, `chain_model.py` and
-`pitch_model.py` reuse.
 
-## What is in the repository
+```
+pip install python-flint mpmath numpy scipy
+cd data
 
-| Path | What |
-|---|---|
-| `scripts/hp_block.py` | Weil's form on a window, even and odd halves, in ball arithmetic |
-| `scripts/level_from_zeros.py`, `mu_from_zeros.py`, `mu_big.py`, `zeros_rs.py` | Levels from the zeros alone; zeta zeros by Riemann–Siegel |
-| `scripts/flat_track.py`, `gap_table.py` | The gap observation from the form itself |
-| `scripts/prime_move.py`, `rigid.py`, `rigid_weights.py`, `soft.py`, `neg_count.py` | Moving primes: tent, rigidity, counts of negative levels |
-| `scripts/zoom_decomp.py`, `zoom_pole.py`, `zoom_slack.py` | The zoom: where its cost comes from, the pole state, slack |
-| `scripts/stiff_profile.py` | The exact stiffness rule and its profile across the window |
-| `scripts/ff_toy.py`, `ff_rigid.py`, `diver_floor.py` | Curves over finite fields; leaving primes out |
-| `scripts/chain_model.py`, `pitch_model.py` | The two failed small models |
-| `scripts/ladder_track.py`, `edge_*.py`, `deep_profile.py`, `margin_*.py` | Earlier work: births of tiny levels, leaving out one prime, the margin |
-| `scripts/horizon_*.py`, `horn_*.py` | Earlier work: checks of a physical reading |
-| `data/` | Outputs quoted in the notes; zeta zeros to 2300, 6000, 21000 |
-| `notes/explain_it_like_im_5.md` | The whole project in plain words |
-| `notes/questions.md` | Working log for both observations |
-| `notes/ladder.md`, `margin.md`, `picture.md`, `function_field.md` | Earlier notes |
+# 1  levels from the zeros alone
+python3 ../scripts/mu_from_zeros.py 2.0 100.2 148.2
+python3 ../scripts/mu_big.py 0 2 3.2 500.2
+
+# 2  moving the primes
+HP_PREC=128 python3 ../scripts/prime_move.py 100 14.2 7 1e-3 -1e-3 1e-2
+HP_PREC=128 python3 ../scripts/rigid.py 100 14.2
+HP_PREC=128 python3 ../scripts/zoom_slack.py 60 3.3
+
+# 3  ticks, offset law, kernel
+HP_PREC=300 python3 ../scripts/clock_ticks.py 50 8.2 60
+HP_PREC=600 HP_DIGITS=80 python3 ../scripts/sens_fast.py 70 14.2
+python3 ../scripts/near_primes.py
+python3 ../scripts/k_multiplier.py
+
+# 4  the level curve (stored in level_curve.json) and its tones
+python3 ../scripts/bumps.py
+
+# 5  another number system
+HP_PREC=420 HP_DIGITS=60 DPS=70 python3 ../scripts/lticks.py chi4 90 24.2 22
+
+# 6  the window-only estimate
+HP_PREC=560 HP_DIGITS=100 python3 ../scripts/tick_bound.py 90 8.2
+```
+
+`hp_block.py` builds the form in ball arithmetic; `HP_PREC` is the
+working precision in bits and `HP_DIGITS` the accuracy asked of the
+quadrature. The smallest eigenvalue at window c is about 10^(−5c), so the
+precision has to grow with the window.
 
 ## Prior work this rests on
 
 - A. Connes, C. Consani, *Spectral triples and ζ-cycles*, arXiv:2106.01715
+- A. Connes, C. Consani, H. Moscovici, *Zeta spectral triples*, arXiv:2511.22755
 - A. Andrews, A. Connes, G. La Gatta, arXiv:2611.13129
-- A. Connes, H. Moscovici, arXiv:2112.05500; A. Connes, C. Consani, H. Moscovici, arXiv:2511.22755
-- A. Groskin, arXiv:2607.02828 and arXiv:2605.20224
+- A. Connes, H. Moscovici, arXiv:2112.05500
+- A. Groskin, arXiv:2607.02828, arXiv:2605.20224
 - E. Bombieri, *Remarks on Weil's quadratic functional in the theory of prime numbers, I* (2000)
-- M. Suzuki, arXiv:2610.41115 and arXiv:2606.09096; J.-F. Burnol, arXiv:math/9809119
+- M. Suzuki, arXiv:2610.41115, arXiv:2606.09096; J.-F. Burnol, arXiv:math/9809119
 - D. Slepian, H. Pollak; W. Fuchs: prolate functions and their asymptotics
 
-## Contact
+## Licence and contact
 
-Ludvig Ström. Corrections are very welcome.
+MIT (see `LICENSE`). Ludvig Ström. Corrections are very welcome.

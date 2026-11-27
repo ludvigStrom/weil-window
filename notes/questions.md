@@ -1381,3 +1381,406 @@ connect; within a few percent of window growth it has become one side of
 a cancellation to five or six digits, and the vacuum keeps adjusting so
 that the remainder stays positive and keeps falling at about the same
 rate.
+
+### The bumps in the level's rate of fall: three tests (`bumps.py`, `level_curve.json`)
+
+1. **New near-null states arriving (once per unit of c in each half):
+   no.** Folding the detrended rate by the fractional part of c explains
+   4% (even) and 5% (odd) of its variance. The bumps do not repeat with
+   period 1.
+2. **Are they an artifact of the basis size: no.** Recomputed with
+   N = 120 for c = 5.5 to 6.55: the level shifts by a slowly varying
+   0.01 to 0.03 decade, and the rates agree with N = 80 to +-0.07 while
+   swinging between 4.5 and 5.7. The bumps are real.
+3. **Zeros, looked at again: suggestive, not established.** Averaging the
+   detrended rate at c = gamma / 2 pi + s over the 8 zeros in range:
+   even half peaks at +0.17 for s = -0.15 (smooth profile: -0.15, -0.04,
+   +0.10, +0.17, +0.14, +0.07, +0.06, -0.06 for s = -0.30 ... +0.05); odd
+   half peaks at +0.13 for s = 0. So the even rate tends to be highest
+   shortly before 2 pi c reaches a zero and the odd rate when it gets
+   there, which is also why the earlier four-bin test saw little. But a
+   randomly displaced comb does as well in 12% (even) and 22% (odd) of
+   trials, and the peaks are half the size of the bumps (rms 0.35).
+   Eight zeros are too few. The maxima not near a zero sit just after
+   the prime 7 and near c = 4.5 and 8.6.
+
+The periodogram's "period 0.67" is not a clean period: successive maxima
+are 0.3 to 0.6 apart, irregular, like the zeros.
+
+To decide: extend the curve to c of about 16 (some 25 more zeros).
+
+### The curve extended to c = 16, and the zeros test decided (`level_curve.py` N = 120, 141 windows from 9 to 16)
+
+The level falls from 1e-37.5 to 1e-74.4 (even half). Rate of fall: mean
+5.27 (even), 5.19 (odd), closer to 5.46 than at smaller windows; range
+4.5 to 6.1; rms about its trend 0.26 / 0.25 (it was 0.37 for c = 4 to 9).
+
+**Zeros: no.** Out-of-sample test with the shifts fixed from the first
+data set (even: s = -0.15, odd: s = 0), 16 new zeros: zero-triggered mean
+of the detrended rate -0.001 (z = 0.0) and -0.020 (z = -0.5). The whole
+profile for s between -0.3 and +0.3 stays within +-0.09 with no shape.
+The pattern seen with 8 zeros was chance. The bumps are not tied to the
+zeros crossing 2 pi c.
+
+**Primes: yes, cleanly.** Jump of the rate across an integer (after minus
+before, even / odd):
+
+| c | 10 | 11 | 12 | 13 | 14 | 15 |
+|---|---|---|---|---|---|---|
+| jump | +0.04 / -0.22 | +1.11 / +0.91 | 0.00 / +0.07 | +1.33 / +0.96 | -0.22 / +0.21 | +0.04 / +0.14 |
+
+Together with 5 (+0.41 / +0.68), 7 (+0.84 / +1.07), 8 (+0.26 / +0.18)
+and 6 (none): every prime gives a jump of about one decade per unit, a
+prime power a smaller one, other integers none.
+
+**What the bumps look like now.** After a prime the rate is high (5.8 to
+6.1) and relaxes over roughly a unit of c to about 5.0, reaching its
+lowest values just before the next prime (10.97: 4.71 / 4.45; 12.97:
+4.77 / 4.47; 6.97: 4.87 / 4.28; 4.97: 4.88 / 4.25). So part of the
+"bumps" is a sawtooth driven by the primes: a kick at each entry, then a
+decay. That also explains why the swings were larger between 4 and 9,
+where prime powers arrive more often. On top of the sawtooth there
+remain wiggles of about +-0.3, 0.4 to 0.6 apart, in both halves, weakly
+correlated (+0.21), not yet attributed to anything.
+
+Ruled out so far for those wiggles: the arrival of near-null states
+(period 1), the basis size, the zeros at 2 pi c. Not yet tested: the
+vacuum's edge value itself, and the powers of 2 and 3 inside the window.
+
+### The wiggles: a wave through the ladder (stored spectra `ladder_fine.json`, c = 5.00 to 7.62, step 0.02, N = 80)
+
+Looking at the levels above the vacuum, not only at the vacuum:
+
+- **Neighbouring levels wiggle against each other.** Correlation of the
+  rates of fall: level 0 with level 1: -0.38 (both halves); 1 with 2:
+  -0.26 / -0.23; 0 with 2: +0.36 / +0.44. The sign alternates up the
+  ladder.
+- **The gaps between successive levels all turn at the same windows.**
+  Zero crossings of the detrended gaps, even half: levels 0-1 at 5.03,
+  5.39, 5.79, 6.16, 6.42, 6.65, 7.10, 7.41; levels 1-2 at 5.12, 5.38,
+  5.68, 6.10, 6.45, 6.68, 7.04, 7.39; levels 2-3 at 5.13, 5.50, 5.68,
+  5.99, 6.44, 6.73, 7.05, 7.39. Half-period about 0.33, so a full period
+  of about two thirds of a unit of c (the 0.67 of the periodogram, and
+  the spacing still seen between c = 13 and 16).
+- **The two halves are a quarter period out of step.** The odd gaps cross
+  zero 0.15 to 0.2 later than the even ones; correlation of the lowest
+  even and odd gaps: +0.21 unshifted, -0.64 and +0.55 with a shift of
+  +-0.25 in c.
+- **Averaged over the ladder the wiggle fades.** Rms of the detrended
+  mean log of the lowest k levels: 0.032, 0.014, 0.011, 0.008 for
+  k = 1, 2, 3, 4 (even half).
+
+So the wiggle is one wave running through the whole ladder: each step up
+the combined ladder (even, odd, even, ...) shifts its phase by a quarter
+turn. It is consistent with every level carrying the same wiggle as a
+function of its "age" (window size minus the size at which it was born),
+since levels are born half a unit apart and 3 pi x 0.5 is a quarter turn
+backwards. The levels trade a little with their neighbours while the
+family as a whole (the product of the tiny levels) falls smoothly.
+
+Not explained: why the period is about 2/3 of a unit of c, and whether
+it is exactly that.
+
+Summary of the fine structure of the vacuum's level: a smooth fall
+(approaching 4 pi per unit of c) + a kick of about one decade per unit at
+each prime, decaying over about a unit + a wiggle of about +-0.3 that is
+the vacuum's share of a wave through the ladder. Nothing from the zeros.
+
+### "Why 2/3?": the wiggle is a set of sharp tones (periodograms of `level_curve.json`)
+
+Rate of fall of the vacuum's level, quadratic trend removed, windows
+within 0.12 of a prime power left out. Strongest frequencies in cycles
+per unit of c (share of variance in brackets):
+
+| data | even half | odd half |
+|---|---|---|
+| c = 9 to 16, N = 120 | 1.495 (1.0), 2.630 (0.33), 1.705, 3.760, 1.285 | 1.495 (0.87), 2.625 (0.41), 0.845, 1.710, 1.275 |
+| c = 4 to 9, N = 80 | 1.485 (1.0), 2.640 (0.45), 3.740, 0.790, 2.165 | 1.505 (1.0), 2.655 (0.40), 0.780, 3.735, 2.110 |
+
+- **The main tone is at 1.50 cycles per unit, in both halves and in both
+  independent ranges** (1.485 to 1.505; the resolution is 0.14 to 0.2 but
+  a strong line is located much better than that). So the period is 2/3
+  to within about half a percent, and the phase is 3 pi c = 2 pi c x 3/2.
+- **There are overtones**, the same in both ranges: 2.64 +- 0.01, 3.74,
+  and weaker ones near 0.79, 2.13, 1.28, 1.71. They are not multiples of
+  1.5.
+- Candidate readings, none established: simple fractions (3/2, 8/3 =
+  2.667, 15/4, 4/5, 9/7, 12/7), which fit 2.64 only at two standard
+  deviations; or pairs differing by sqrt 2 (1.5 and 2.12; 2.646 = sqrt 7
+  and 3.742 = sqrt 14), which fit the numbers better but have no
+  explanation.
+
+A quarter turn per ladder step is the Fourier eigenvalue i^n of these
+waves, so the wiggle looks like an interference between each wave and
+its own tail outside the window (the tail of a function cut off at
+lambda oscillates as sin(2 pi lambda x - n pi / 2)); a phase 3 pi c would
+be that tail read at x = 3 lambda / 2, i.e. the ratio 3/2 of the first
+two primes. That is a guess. To separate fractions from square roots the
+curve has to be extended (to c = 30 the resolution would be 0.04).
+
+### The curve extended to c = 24, and the tones again (`level_curve.py` N = 150, 80 windows from 16.1 to 24.0, step 0.1)
+
+The level reaches 1e-117 (even) and 1e-112.5 (odd) at c = 24. Mean rate
+of fall 5.32 / 5.28. Prime kicks again: +0.83 / +0.99 at 17, +1.15 / +1.01
+at 19, +1.33 / +1.59 at 23; at 18, 20, 21, 22 between -0.5 and +0.3.
+
+**Cleanest view of the wiggle: the difference of the two halves' levels**,
+log10(even) - log10(odd), cubic trend removed. The prime kicks are nearly
+the same in both halves and cancel. Strongest lines by range:
+
+| range of c | rms of the wiggle | lines (cycles per unit of c; share) |
+|---|---|---|
+| 4 to 9 | 0.041 | 1.500 (1.1), 0.772, 2.630 |
+| 9 to 12.5 | 0.030 | 1.496 (1.2), 2.606, 2.160 |
+| 12.5 to 16 | 0.026 | 1.470 (1.4), 1.038 |
+| 16.1 to 20 | 0.023 | 1.486 (1.1), 0.894 (0.5) |
+| 20 to 24 | 0.016 | 0.898 (0.8), 1.248; no line at 1.5 |
+
+- **The main tone sits at 1.50 in four successive ranges** (1.500, 1.496,
+  1.470, 1.486; each range resolves about 0.25, a strong line is placed
+  to a few hundredths). It does not drift. So the pitch is 3/2 as far as
+  this can tell.
+- **It fades.** The wiggle's size falls from 0.041 to 0.016, and beyond
+  c = 20 the 3/2 tone is gone; a slower tone near 0.9 (0.894, 0.898)
+  dominates there. The overtone near 2.63 is present up to c of about 12
+  and not after.
+- In the rates of the single halves (previous section's method) the
+  kicks at 17, 19, 23 leak into the spectrum and made the lines look as
+  if they drifted (1.44 to 1.47, 2.39); the difference of the halves
+  does not show that.
+
+So "why 2/3" becomes: why a tone at exactly 3/2 that dies out as the
+window grows, and what replaces it. A tone that fades fits something
+tied to particular small primes (their influence relative to the whole
+shrinks as more primes arrive) better than something built into the
+waves themselves. The guess "ratio of the first two primes" survives;
+the square-root reading does not need to be kept, since the 2.63 line
+was never accurate enough and has gone. Next candidates to check against
+the later tone near 0.9: 8/9 = 0.889 and 9/10; needs c beyond 24.
+
+### Testing the reading of the 3/2 tone (fits to `level_curve.json`)
+
+The "2 and 3" idea in its concrete form: each ladder wave interferes
+with its own tail outside the window, read at x = 3 lambda / 2. A
+function cut off at lambda has a tail sin(2 pi lambda x - n pi / 2) / x,
+so this predicts three things at once: phase 2 pi lambda (3 lambda / 2) =
+3 pi c; amplitude falling like 1 / x, i.e. like 1 / lambda = c^(-1/2);
+and a quarter turn between successive ladder levels (even and odd
+vacua).
+
+Fit of the detrended difference of the halves' levels to
+c^(-p) (a cos 2 pi f c + b sin 2 pi f c), everything free:
+
+| range | frequency | amplitude | variance explained |
+|---|---|---|---|
+| 4 to 20 | 1.4969 | 0.113 c^(-0.52) | 0.59 |
+| 4 to 12 | 1.5022 | 0.129 c^(-0.59) | 0.58 |
+| 12 to 20 | 1.4929 | (flat within this short range) | 0.62 |
+
+With the frequency fixed at 3/2 and the amplitude at c^(-1/2), each
+half's own level (c = 9 to 20): even 0.088 / sqrt(c) at phase -165
+degrees, odd 0.084 / sqrt(c) at +118 degrees. The difference is 283
+degrees, i.e. the odd one is 77 degrees behind: a quarter turn within
+the accuracy.
+
+**All three signatures hold**: frequency 1.497 (3/2 to 0.2%), amplitude
+exponent -0.52 (predicted -0.5), relative phase 77 degrees (predicted
+90). A single such tone accounts for about 60% of the wiggle.
+
+What this does and does not show. It supports "the tail at one and a
+half window lengths". It does not tell whether 3/2 is there as the ratio
+of the primes 3 and 2 or as the integers 3 and 2 (in the sum over
+integer multiples that builds these states, three times the point
+lambda / 2 where twice the point reaches the edge). Tones at other simple
+ratios (4/3, 5/3, 2, 5/2, 3) are not seen, so neither a "pairs of
+primes" nor a "pairs of integers" family is visible; 3/2 stands alone.
+The decisive experiment is a form for a number system without the prime
+2 or without the prime 3 (a Dirichlet L-function mod 4 or mod 3): if the
+tone is about the primes it must vanish or move there; if it is about
+the integers it stays. That needs the form for L-functions, which this
+code does not have yet.
+
+### Ludvig's point on the missing cousins of 3/2 (27 Nov, 05:20)
+
+"Are the tones not just ratios of the prime pairs?" This removes the
+objection that 5/3, 5/2, 7/2 and so on are not seen. If a tone at p/q is
+weighted by how strongly both primes act on the vacuum, the fade-in
+kernel says only 2 and 3 sit in the bright part: 5 acts with about 1e-6
+of the strength of 2, 7 with 1e-12. So 3/2 should be the only audible
+ratio, and every pair involving 5 or more should be at least a million
+times fainter. The absence of the cousins is what the prime-pair reading
+predicts, not evidence against it. (The same weighting makes a
+"pairs of integers" family nearly silent too, apart from 3/2 and the
+powers of 2 and 3, so this does not by itself separate the two.) The
+faint lines near 2.63, 0.8 to 0.9 and 3.74 are not ratios of small
+primes and are left unexplained. Decision: park the tone; it will be
+checked for free when the form for an L-function (no prime 2, or no
+prime 3) is built for other reasons.
+
+## Another number system: the form for a Dirichlet L-function (`lfunc_block.py`, `lticks.py`)
+
+Built from the explicit formula for a real primitive character chi of
+conductor Nc and parity a, as a change to zeta's kernel function H:
+
+- each prime power q carries chi(q); primes dividing Nc drop out;
+- no pole: zeta's term -xU (measure -dt) is replaced through the trivial
+  zeros by -U (a = 0) or -xU - U + (x + 1) log((x + 1)/2) (a = 1); the
+  difference of measures is (1 + 1/t) dt, resp. (1 + 1/(t(t + 1))) dt,
+  which is smooth, so the regularisation at t = 1 is unchanged;
+- the conductor adds log(Nc) g(0), i.e. -(1/2) log(Nc)(x - 1) in the
+  bracket.
+
+**It worked at the first run.** c = 24.2, N = 90:
+
+| | chi mod 4 (no prime 2) | chi mod 3 (no prime 3) |
+|---|---|---|
+| lowest even eigenvalues | 6.8e-29, 1.9e-21, 1.9e-15, 3.4e-10 | 1.7e-39, 8.7e-32, 6.0e-25, 2.2e-19 |
+| lowest odd eigenvalues | 5.4e-25, 2.9e-18, 8.1e-13, 4.8e-8 | 1.7e-35, 2.8e-28, 5.2e-22, 1.0e-16 |
+| ticks of the lowest even state | 6.020948905, 10.2437703, 12.98809801, 16.3426071, 18.2919932, 21.45061134 | 8.039737156, 11.24920621, 15.70461918, 18.2619975, 20.45577081 |
+| tick minus zero of L(1/2 + it, chi) | 3e-27, 3e-25, 8e-24, 6e-22, 6e-21, 2e-19 | 9e-37, 3e-35, 7e-33, 3e-31, 3e-30 |
+
+So the form is positive, has the ladder of tiny levels, and the recipe
+gives the zeros of the L-function (computed independently with mpmath)
+to 27 and 37 digits. Tick minus zero is again a multiple of the lowest
+eigenvalue (47 and 500 for the first zero).
+
+Fewer tiny levels than for zeta at the same window: the zeros are denser
+by log(Nc), so the "sea" reaches only 2 pi c / Nc, and there are about
+2c / Nc near-null states (about 12 for chi mod 4 at c = 24.2, 16 for chi
+mod 3).
+
+### The level curves of the two other systems, and what the tones are (`CHI=chi4|chi3 level_curve.py`, 201 windows each, c = 10 to 30, N = 110; `level_curve_chi.json`)
+
+Mean rate of fall: 1.32 / 1.27 decades per unit of c for chi mod 4 and
+1.77 / 1.72 for chi mod 3, against 4 pi / (Nc ln 10) = 1.364 and 1.819.
+So the natural window is c / Nc, as the count of tiny levels said.
+
+**Kicks follow the character.** Jump of the rate at a prime (even / odd):
+chi mod 4: +0.04 / +0.24 at 13, +0.12 / +0.20 at 17, +0.14 / +0.26 at 29
+(chi = +1); -0.03 / -0.25 at 11, -0.16 / -0.20 at 19, -0.18 / -0.27 at 23
+(chi = -1). chi mod 3: +0.20 / +0.21 at 13, +0.17 / +0.33 at 19 (chi = +1);
++0.03 / -0.36 at 11, -0.17 / -0.26 at 17, -0.32 / -0.32 at 23,
+-0.30 / -0.38 at 29 (chi = -1). A prime with chi = +1 speeds the fall, one
+with chi = -1 slows it. In units of c / Nc the size is about one decade
+per unit, as for zeta. Non-prime-powers: within +-0.1.
+
+**Tones** of the detrended difference of the halves' levels, converted to
+cycles per unit of c / Nc:
+
+| system | primes it has | lines |
+|---|---|---|
+| zeta | all | 1.50, 2.63 to 2.65, 3.74, 0.77 to 0.90, 2.13, 1.04, 1.71, 1.28 |
+| chi mod 3 | 2, 5, 7, ... (no 3) | **1.500** (share 1.35), 2.12, 1.71, 3.74, 1.30, 0.52. Nothing at 2.65. |
+| chi mod 4 | 3, 5, 7, ... (no 2) | **2.648** (share 1.02), 1.06, 4.77, 2.91, 0.64, 0.35. Nothing at 1.5 (share 0.001). |
+
+**So the 1.5 tone needs the prime 2 and not the prime 3; the 2.65 tone
+needs the prime 3 and not the prime 2.** "3/2" was never the ratio of
+two primes.
+
+**The rule that fits: a mirror at q gives a tone at q - 1/q.**
+
+| q | q - 1/q | seen at | in which systems |
+|---|---|---|---|
+| 2 | 1.500 | 1.497, 1.500 | zeta, chi3 (have 2); absent in chi4 |
+| 3 | 2.667 | 2.63 to 2.65 | zeta, chi4 (have 3); absent in chi3 |
+| 4 | 3.750 | 3.74 | zeta, chi3 (have 4); absent in chi4 |
+| 5 | 4.800 | 4.77 | chi4 (zeta not scanned that high) |
+| 3/2 | 0.833 | 0.77 to 0.90 | zeta only (needs 2 and 3) |
+| 5/2 | 2.100 | 2.12, 2.13 | zeta, chi3 (have 2 and 5); absent in chi4 |
+| 5/3 | 1.067 | 1.04, 1.06 | zeta, chi4 (have 3 and 5); absent in chi3 |
+
+Eleven line-and-system matches and seven predicted absences, all correct.
+The measured values sit 0.2 to 0.7% below q - 1/q. Unidentified lines:
+1.71 and 1.28 to 1.30 (zeta, chi3), 0.52 (chi3), 2.91, 0.64, 0.35 (chi4).
+
+Reading: q - 1/q is the difference of q and 1/q, the two images of the
+window's edge under the mirror (x = q lambda and x = lambda / q). The
+phase 2 pi lambda (q lambda - lambda / q) is the beat between the wave's
+tail read at those two points. So each prime in the bright part of the
+vacuum plays its own note, and pairs of them play the notes of their
+ratios. Ludvig's question ("are the tones not just ratios of the prime
+pairs?") was half of it: the pair tones are there (3/2, 5/2, 5/3), and
+the loudest line is the single prime 2.
+
+### Passivity (Ludvig, 27 Nov 06:00): an ill-designed test, and where the idea already lives (`interlace.py`)
+
+Suggestion: positivity as energy conservation, the system as passive.
+Test tried: do the zeros of the even vacuum's cosine transform and of the
+odd vacuum's sine transform interlace, as resonances and anti-resonances
+of a lossless passive system do? Result at c = 8.2: the two sets are the
+same thirteen numbers, the zeros of zeta, equal to 5.6e-28. Of course:
+both halves of the form are sums over the same zeros, so both vacua
+vanish at all of them. The test carried no information; it was the wrong
+pair of functions. (The run at c = 14.2 with default quadrature is below
+its precision floor and is discarded.)
+
+Where passivity already is, in the literature this rests on: for every
+finite window the recipe's operator is self-adjoint, so its ticks are
+real whatever the zeros of zeta do (Connes-van Suijlekom; the hypothesis
+is that the lowest eigenvalue is simple and even). Each window is a
+lossless system by construction. The Riemann hypothesis would follow if
+the ticks converge to the zeros of zeta as the window grows (Hurwitz),
+and that convergence is the open step. So "find a passive system" is
+done window by window; what is missing is that the sequence of passive
+systems has zeta as its limit. Burnol's "causality is equivalent to RH"
+and de Branges' strings are the same idea in other clothes
+(`string.md`).
+
+## A bound to aim for: the distance of a tick from its limit, from the window's own data (`tick_bound.py`)
+
+For the lowest even state v (unit norm, coefficients v_m on the
+frequencies w_m), its cosine transform v^, its n-th tick t_n and the
+lowest eigenvalue eps, define, with nothing but the form on the window c,
+
+    B_n(c) = t_n P_n eps / v^'(t_n)^2 ,     P_n = sum_m v_m^2 / (t_n^2 - w_m^2).
+
+Pairing the eigen-equation with v divided by (s^2 - t_n^2) gives
+t_n - gamma_n = B_n (1 + r_n), where r_n = 2 sum over the other zeros of
+w_gamma / ((gamma^2 - t_n^2) P_n) and the w_gamma are the shares of eps
+carried by each zero. (The term with cos(t_n u) drops out of P_n because
+v^(t_n) = 0.)
+
+**Measured rho_n = (t_n - gamma_n) / B_n**, true zeros from mpmath:
+
+| system, c | eps | tick 1 | tick 2 | tick 3 | tick 4 |
+|---|---|---|---|---|---|
+| zeta, 4.2 | 1e-13.0 | 1.0501 | 1.1285 | 1.2003 | 1.3521 |
+| zeta, 6.2 | 1e-23.0 | 1.0204 | 1.0488 | 1.0718 | 1.1126 |
+| zeta, 8.2 | 1e-33.3 | 1.0100 | 1.0236 | 1.0342 | 1.0523 |
+| zeta, 10.2 | 1e-43.8 | 1.0066 | 1.0154 | 1.0222 | 1.0336 |
+| zeta, 12.2 | 1e-54.3 | 1.0045 | 1.0104 | 1.0149 | 1.0224 |
+| zeta, 14.2 | 1e-64.8 | 1.0032 | 1.0074 | 1.0106 | 1.0159 |
+| zeta, 16.2 | 1e-75.4 | 1.0024 | 1.0056 | 1.0080 | 1.0119 |
+| chi mod 4, 14.2 | 1e-15.0 | 1.0095 | 1.0306 | 1.0513 | 1.0858 |
+| chi mod 4, 26.2 | 1e-30.8 | 1.0027 | 1.0085 | 1.0139 | 1.0224 |
+| chi mod 3, 14.2 | 1e-21.1 | 1.0087 | 1.0181 | 1.0370 | 1.0514 |
+| chi mod 3, 26.2 | 1e-42.3 | 1.0026 | 1.0053 | 1.0106 | 1.0145 |
+
+(also zeta at 5.2, 7.2, 9.2 and both characters at 20.2: same pattern.)
+
+- **In every case rho_n is above 1 and tends to 1.** 64 values, three
+  systems.
+- **rho_n - 1 = 0.0032 x (gamma_n Nc / c)^2 to within 10%**, for every
+  tick, window and system: (rho_1 - 1) c^2 = 0.88, 0.71, 0.78, 0.64,
+  0.67, 0.65, 0.69, 0.67, 0.65, 0.63 for zeta at c = 4.2 ... 16.2; the
+  higher ticks scale with gamma_n^2 (tick 2 / tick 1: 2.33 against 2.21;
+  tick 4 / tick 1: 4.96 against 4.63); the characters give 0.0032 and
+  0.0030 with c replaced by c / Nc.
+- Reading: r_n is the average of gamma_n^2 / gamma^2 over the zeros that
+  carry the vacuum's level, so those zeros sit around
+  gamma = 17.7 c / Nc = 2.8 x (2 pi c / Nc): just beyond the reach of the
+  window, as expected.
+
+**The conjecture this suggests** (a target, not a result):
+
+    B_n(c)  <=  t_n(c) - gamma_n  <=  B_n(c) (1 + C (gamma_n Nc / c)^2),   C about 0.0035,
+
+for every window. Its content: the distance from a tick to its limit is
+given, to a relative accuracy that improves like 1/c^2, by a quantity
+computed on the window alone. If something of this shape could be proved
+from the form's side, without assuming where the zeros are, it would be a
+rate of convergence for the recipe. As it stands the identity behind it
+assumes the form is a sum over real zeros.
+
+Practical by-product: t_n - B_n (1 + r_n) improves each tick by two to
+three further digits.
