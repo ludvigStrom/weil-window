@@ -28,8 +28,6 @@ the questions. Several explanations offered along the way were wrong and
 are listed in the notes. The literature was checked lightly, so
 "possibly new" means only that I did not find it.
 
-- Plain-words account: [`notes/explain_like_feynman.md`](notes/explain_like_feynman.md)
-  (or the simpler [`notes/explain_it_like_im_5.md`](notes/explain_it_like_im_5.md))
 - Working log with every number and every dead end: [`notes/questions.md`](notes/questions.md)
 - What the picture says the system is: [`notes/clock_and_form.md`](notes/clock_and_form.md)
 
