@@ -4,7 +4,7 @@ Why this exists
 
 I'm not a mathematician. I like poking at things I don't understand, and like many people I have tried my hand at the Riemann hypothesis. When I heard that Alpöge had announced a proof, I felt some relief, but I couldn't keep my hands off it. I took the argument apart looking for the physics I expected to be hiding in it, and found none. Everything that interested me was missing.
 
-So I turned to Connes's recent papers, where the zeros come from a concrete object: the Weil form on a finite window. I noticed something small, and possibly new, about the odd half of that form, and wanted to push on.
+So I turned to recent papers, where the zeros come from a concrete object: the Weil form on a finite window. I noticed something small, and possibly new, about the odd half of that form, and wanted to push on.
 
 What I wanted was a real physical system whose behaviour is the zeta zeros. I started with cold fermionic gases, because they show the same fine tuning the zeros must have, and soon had a picture of a supercold gas in a box. I began writing a dictionary between Connes's language and the physical language I think in. The background energy in the box read as vacuum energy. The geometry pointed at a horizon, the kind a black hole or an expanding universe has. From there each term in the formula found a place as a physical object: the primes as mirrors, the scaling as a clock, the lowest state as a vacuum.
 
