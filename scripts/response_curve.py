@@ -70,6 +70,15 @@ if os.environ.get("DECOMP"):
     sys.exit()
 def resp(vec):
     r = vec - v * (v.T * vec)[0]; dv = -(Qi * r); dv = dv - v * (v.T * dv)[0]; g = hat(dv); return [-g(t) / d for t, d in zip(ts, ds)]
+if os.environ.get("KCHK"):
+    # is the response just the shift of the vacuum's level?  K_n = (tick_n - zero_n) / lambda_0  against  TA_n / d(lambda_0)
+    zs = [mp.im(mp.zetazero(n + 1)) for n in range(len(ts))]; K = [(t - z) / lam0 for t, z in zip(ts, zs)]
+    print("   K_n = (tick - zero) / vacuum level: " + ", ".join(mp.nstr(x, 6) for x in K))
+    print("   q      d(vacuum level) = -<v0|A_a|v0> (log10)     TA_n / d(level) for each tick           TA_n / (K_n d(level))")
+    for q in QS:
+        A, dA = Aops(mp.log(mp.mpf(repr(q)))); dl = -(v.T * A * v)[0]; TA = resp(-(A * v))
+        print(f"   {q:5.2f}   {float(mp.log10(abs(dl))):+8.2f}      " + "  ".join(mp.nstr(x / dl, 6) for x in TA) + "      " + "  ".join(mp.nstr(x / dl / k, 5) for x, k in zip(TA, K)), flush=True)
+    sys.exit()
 if os.environ.get("OSC"):
     # test of the explanation: TA_n(a) should satisfy  TA'' + t_n^2 TA = c_n R(a),  R(a) = int v0(u) v0(u + a) du
     h = mp.mpf("1e-3"); print("   q      R(a) (log10)    (TA'' + t^2 TA) / R  for each tick")

@@ -1183,3 +1183,201 @@ vacuum with that zero removed.
   varying factor. Likely reasons, not checked: the zeros above 2 pi c,
   which the vacuum's transform cannot all vanish at, and the pole terms
   of the form.
+
+### The loose thread resolved: the drift was the vacuum's level (`KCHK=1 response_curve.py`, c = 28.2)
+
+The slowly varying factor came from a term the sketch left out. From the
+eigen-equation of the perturbed form, (Q + eps X) v = lambda v with
+Q = 2 sum |e_gamma><e_gamma|, pairing with d_n (the vacuum with zero n
+divided out) gives two terms:
+
+    d(tick_n) = kappa_n [ <d_n, v0> <v0, X v0>  -  <d_n, X v0> ]
+                          level term               shape term
+
+The level term is K_n times the first-order shift of the vacuum's own
+eigenvalue, with K_n = (tick_n - zero_n) / lambda_0 (the same pairing
+applied to the unperturbed equation gives tick_n = zero_n + K_n lambda_0).
+The shape term is the oscillator solution of the previous section. Since
+the level term is proportional to R(a) itself, applying d^2/da^2 + t_n^2
+to it brings in R''(a), which grows like (slope)^2: that was the "q^2.6"
+drift (slope^2 ratio between q = 3 and 23: 450; drift ratio: 404).
+
+**Test.** K_n from the unperturbed ticks: 9923.9, 2.885e7, 3.764e9,
+5.818e12. Then TA_n / (K_n x d(level)), d(level) = -<v0|A_a|v0>:
+
+| q | 1.5 | 2 | 3 | 5 | 7 | 9 | 13 | 17 | 23 | 27 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| tick 1 | 0.111 | 0.298 | 0.589 | 0.837 | 0.919 | 0.954 | 0.981 | 0.991 | 0.996 | 0.998 |
+| tick 2 | 0.044 | 0.139 | 0.367 | 0.686 | 0.831 | 0.900 | 0.957 | 0.979 | 0.991 | 0.995 |
+| tick 4 | 0.020 | 0.066 | 0.204 | 0.498 | 0.695 | 0.808 | 0.913 | 0.955 | 0.982 | 0.990 |
+
+**So: tick_n = zero_n + K_n x (vacuum level), and a far mirror does
+nothing but change the level.** The response to a mirror at lag a is
+K_n times -2 R(a), the vacuum's self-overlap, to 0.2% at the edge of the
+window, over a range where R falls by 104 decades. The deficit from 1 is
+the shape term, of relative size about (t_n x decay length of R)^2
+(q = 13: (14.13 / 100)^2 = 0.020 against 0.019 for tick 1; (30.4 / 100)^2
+= 0.092 against 0.087 for tick 4). For near mirrors the two terms nearly
+cancel (0.11 at q = 1.5, 0.30 at q = 2 for the first zero): that
+cancellation, different for each zero, is the tilt.
+
+This replaces "the kernel is the sixth wave's intensity at sqrt(q)" by
+the exact statement behind it: **the kernel is the vacuum's self-overlap
+at lag ln q** (of which the wave formula is the WKB estimate), and the
+"touchiness" of a zero is K_n, its tick's offset per unit of vacuum level.
+
+## Near primes: the bright region is Riemann's own function (`near_primes.py`)
+
+As the window grows the vacuum's transform tends to Xi(s) = xi(1/2 + is)
+(CCM), so the vacuum itself tends to the classical function
+
+    Phi(u) = 2 sum_n (2 pi^2 n^4 e^(9u/2) - 3 pi n^2 e^(5u/2)) exp(-pi n^2 e^(2u)),
+
+whose cosine transform is Xi. In the variable y = e^u it is a bell
+y^(9/2) exp(-pi y^2): the "bell with a power" of the fade-in formula,
+without the window. Then, with no window and no fitted number:
+
+- self-overlap R(a) = int Phi(u) Phi(u + a) du / int Phi^2 (transform: Xi^2);
+- the same with zero gamma_n divided out, P_n(a) = (1 / gamma_n)
+  int_a^inf R(y) sin(gamma_n (y - a)) dy (transform: Xi^2 / (s^2 - gamma_n^2));
+- response of zero n to a mirror at lag a, in units of K_n times the
+  level shift: rho_n(a) = 1 - (P_n(a) / P_n(0)) / R(a).
+
+| q | rho from Phi alone: zeros 1, 2, 4 | measured at c = 28.2 |
+|---|---|---|
+| 1.5 | 0.106, 0.042, 0.019 | 0.111, 0.044, 0.020 |
+| 2 | 0.283, 0.131, 0.063 | 0.298, 0.139, 0.066 |
+| 3 | 0.564, 0.344, 0.189 | 0.589, 0.367, 0.204 |
+| 5 | 0.813, 0.650, 0.459 | 0.837, 0.686, 0.498 |
+| 7 | 0.901, 0.797, 0.646 | 0.919, 0.831, 0.695 |
+
+Agreement to 3 to 8% everywhere, the difference being the finite window.
+The self-overlap itself: log10 R(ln q) = -0.371, -1.121, -3.049 from Phi
+against -0.38, -1.15, -3.16 measured.
+
+**So the near-prime behaviour is not a property of our windows. It has a
+limit, and the limit is written in terms of Xi alone:** the kernel is the
+transform of Xi^2, and the cancellation between level and shape for a
+given zero is the transform of Xi^2 with that zero's factor removed. For
+the prime 2 and the first zero, 72% of the level effect is cancelled;
+for the fourth zero, 94%.
+
+What does not obviously have a limit: K_n itself (7350, 8340, 9110, 9924
+for the first zero at c = 14.2, 18.2, 22.2, 28.2), multiplying a level
+that goes to zero.
+
+## The K multiplier (`k_multiplier.py`)
+
+**Identity.** Pairing Q v0 = lambda_0 v0 with the vacuum-minus-one-zero
+wave, with v0^ the cosine transform of the normalised vacuum:
+
+    K_n = (tick_n - gamma_n) / lambda_0
+        = (t_n / v0^'(t_n)^2) [ P_n(0) + 2 sum_{gamma != gamma_n} w_gamma / (gamma^2 - t_n^2) ]
+
+where w_gamma = v0^(gamma)^2 / lambda_0 are the shares of the vacuum's
+level carried by each zero (sum of 2 w = 1) and P_n(0) is about 1 / t_n^2
+(t_n^2 P_n(0) = 1.061, 1.025, 1.017, 1.011 for zeros 1 to 4).
+
+**Limit from Riemann's Phi alone** (first part, window to infinity):
+K_n^Phi = gamma_n P_n(0) / Xi~'(gamma_n)^2, Xi~ the transform of Phi / |Phi|.
+
+| zero | Xi~'(gamma) | K^Phi | K measured, c = 28.2 | ratio |
+|---|---|---|---|---|
+| 1 | -2.445e-3 | 1.256e4 | 9.924e3 | 0.790 |
+| 2 | +3.139e-5 | 4.948e7 | 2.885e7 | 0.583 |
+| 3 | -2.238e-6 | 8.124e9 | 3.764e9 | 0.463 |
+| 4 | +4.265e-8 | 1.827e13 | 5.818e12 | 0.318 |
+
+First zero, by window: K / K^Phi = 0.585, 0.665, 0.725, 0.790 at
+c = 14.2, 18.2, 22.2, 28.2. Then (1 - ratio) x c = 5.9, 6.1, 6.1, 5.9.
+
+**So K has a limit, the classical number gamma_n P_n(0) / Xi~'(gamma_n)^2
+(essentially 1 / (gamma_n Xi'(gamma_n)^2)), approached like 1 - 6.0 / c
+for the first zero.** The creep with the window was a 1/c correction,
+larger for higher zeros (at c = 28.2 the deficit is 0.21, 0.42, 0.54,
+0.68 for zeros 1 to 4), so higher zeros need larger windows to settle.
+The sign of the deficit shows it comes from the finite-window vacuum
+differing from Phi, not from the shares w_gamma (which could only raise
+K for the first zero).
+
+**Where this leaves the response theory.** Everything in it is now
+classical except one function of the window:
+
+    tick_n(c) = gamma_n + lambda_0(c) / (gamma_n Xi~'(gamma_n)^2) x (1 + O(1/c))
+
+and a mirror at lag a changes lambda_0 by the self-overlap of Phi, with
+the level/shape cancellation rho_n(a) also from Xi alone. The only thing
+the construction knows that the classical function does not is
+lambda_0(c): the vacuum's level, and the fact that it is positive.
+
+## The one curve: the vacuum's level against the window (`level_curve.py`)
+
+lambda_0(c) for both halves, c = 4.00 to 9.00 in steps of 0.05, fixed
+N = 80 (the earlier stored runs mixed basis sizes, which shows up as a
+2 to 5% zigzag; at fixed N the truncation error is 0.005 to 0.03 decade
+and smooth in c). Data: `level_curve.json`.
+
+The level falls from 1e-12 to 1e-37 (even) over this range. Its rate of
+fall, in decades per unit of c (4 pi / ln 10 = 5.457 is the asymptotic
+rate):
+
+- mean 5.08 (even), 4.93 (odd), so still below the asymptotic rate;
+- **it is not steady**: it swings between 4.4 and 5.8, rms 0.37, with
+  bumps roughly 0.4 to 0.6 apart, the two halves partly out of step
+  (the mean of the two has rms 0.28);
+- **kinks where a prime power enters the window**: the rate jumps by
+  +0.41 / +0.68 (even / odd) at c = 5, +0.84 / +1.07 at c = 7,
+  +0.26 / +0.18 at c = 8, and nothing at c = 6 (-0.17 / -0.07). A new
+  mirror makes the level fall faster from the moment it enters.
+
+**Tested and not found:** a tie between the bumps and the zeros. Binning
+the rate by where 2 pi c sits between neighbouring zeros gives 4.93,
+5.03, 5.19, 5.15 (even, +-0.08) and 5.01, 4.81, 4.93, 5.00 (odd, +-0.07);
+the controls with pi c and 4 pi c look the same. The mean spacing of
+zeros in c at this height (about 0.5) matches the spacing of the bumps,
+but the bumps do not line up with the zeros.
+
+**Not understood:** what the bumps are, and the size of the kinks. A
+first-order estimate (a mirror entering at the edge adds -2 w beta^2 (L -
+ln p) to the level, beta the vacuum's edge value) would multiply the rate
+by 1 + ln p / sqrt p = 1.7 at c = 5 and 7; the measured jump is 8 to 25%.
+Either the edge bookkeeping (Hadamard's formula for this form) is not
+what was assumed, or the vacuum rearranges at once. Next: measure the
+edge value directly and test d(lambda_0)/dL against it.
+
+### A prime entering the window (`prime_entry.py`, prime 7, N = 120)
+
+E = w <v0|A_ln p|v0> / lambda_0: the mirror's term in the vacuum's level,
+in units of the level. By Hellmann-Feynman, E = - d ln(lambda_0) / d ln(w)
+exactly. h = ln(c / 7) is the width of the strip the mirror connects.
+
+| c | 7.005 | 7.01 | 7.02 | 7.04 | 7.08 | 7.15 | 7.3 |
+|---|---|---|---|---|---|---|---|
+| h | 0.0007 | 0.0014 | 0.0029 | 0.0057 | 0.0114 | 0.0212 | 0.0420 |
+| E | 0.030 | 0.078 | 0.28 | 2.0 | 35 | 1240 | 262,000 |
+
+- **Entry is smooth.** Just inside (0.07% past the prime) the mirror
+  carries 3% of the level. There is no jump, which is why the measured
+  kink is small.
+- **Then its share explodes.** Neither the naive estimate (E growing like
+  h) nor the log-softened one fits: E / h rises from 42 to 6e6. This is
+  the vacuum's steep rise away from the edge (the Bessel profile
+  I_0(C sqrt t) of `string.md`, C about sqrt 2 x 2 pi c): the strip the
+  mirror connects soon reaches where the vacuum is exponentially larger
+  than at the edge.
+- **So the level is a remainder.** At c = 7.3 the level is
+  (everything else) - (the mirror at 7), two terms each 262,000 times
+  larger than their difference. One relative part in a million of the
+  prime's weight would change the level by a quarter. For older primes
+  the same ratio is w x 2 R(ln p) / lambda_0, the "strength in units of
+  the vacuum's depth" of the fade-in section: tens of decades.
+- E reaches order 1 at h of about 0.004, i.e. c about 7 (1 + 0.004):
+  the same place where the form without the prime would go negative
+  (the margin 1 / (8 p^2) = 0.0026 of `string.md`).
+
+So the two readings offered before were both wrong. The rate of fall
+changes little at entry because the mirror starts with nothing to
+connect; within a few percent of window growth it has become one side of
+a cancellation to five or six digits, and the vacuum keeps adjusting so
+that the remainder stays positive and keeps falling at about the same
+rate.

@@ -81,3 +81,30 @@ are in `questions.md` from "The clock's ticks" onwards.
 
 **Still the wall.** All of this is on finite windows. Nothing here says
 why the vacuum exists at every window.
+
+## Added 27 November, 04:00: everything classical except one curve
+
+| Finding | In plain words | Status |
+|---|---|---|
+| The vacuum is Riemann's function | As the window grows the vacuum tends to Phi, the function whose spectrum is Xi. How any mirror acts on any zero follows from Phi alone. | Checked to 3 to 8% against window 28, no fitted number. |
+| Tick = zero + level x classical number | Each tick sits above its true zero by the vacuum's level times about 1 / (gamma Xi'(gamma)^2). | Limit confirmed by a clean 1 - 6/c approach at four windows. |
+| Far mirrors only move the level | Their effect on every zero is the vacuum's self-overlap, to 0.2% at the edge. | Ours. |
+| Near mirrors also bend the vacuum | For the prime 2 and the first zero 72% of the level effect is cancelled; more for higher zeros. | From Phi alone. |
+| The level is a remainder | A prime enters unnoticed, then within a few percent of window growth its term is hundreds of thousands of times the level. | Ours; matches the old margin. |
+| The level's fall has fine structure | Bumps about twice per unit of window, kinks where primes enter. The bumps are not the zeros. | Measured; unexplained. |
+
+**What this says about the operator.** The physical construction and the
+classical mathematics are the same thing up to one function: the
+vacuum's level against the window, and its sign. Everything else (which
+zero, how touchy, how each prime acts) is Xi. So a proof along this road
+would have to be a statement about that one curve: that a cancellation
+in which every prime takes part always leaves something over.
+
+**Plain-words summary of the night.** We started with a machine that
+must never go negative. We found the primes sit on tents, that the only
+give is the tape speed, and that the background sets it. We ran the
+recipe that turns the form into a clock and watched the clock tick at the
+zeros. We found one wave, the vacuum, that everything else is read off,
+and recognised it as a function Riemann wrote down in 1859. What is left
+that is not in his paper is a single falling curve and the question of
+why it never reaches zero.
