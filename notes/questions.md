@@ -1024,3 +1024,162 @@ the wave is not a pure power.
 Remainders are within 0.7 decade except 23 at c = 28.2 (+1.6, close to
 the edge), and they still drift with the window (constants 2.9, 3.2,
 3.6, 4.4), so this is a good leading description, not an exact formula.
+
+## Extending the formula to 2 and 3: one response curve for a mirror at any distance (`response_curve.py`, c = 28.2)
+
+For a shift a = ln q, q any real number in the window:
+TA(q) = change of the first tick when a unit mirror at q is strengthened
+(perturbation -A_a), T(q) = when it is moved (perturbation -A'_a). Then
+for any prime, exactly,
+d tick / d delta = sum_k p^(-k/2) [ k ln p T(p^k) + (1 - (k/2) ln p) TA(p^k) ].
+
+| q | 1.1 | 1.3 | 1.5 | 1.7 | 1.9 | 2 | 2.2 | 2.5 | 3 | 3.5 | 4 | 5 | 6 | 7 | 8 | 9 | 11 | 13 | 16 | 17 | 19 | 23 | 25 | 27 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| log10 of -TA | 2.08 | 2.82 | 2.96 | 2.90 | 2.73 | 2.62 | 2.34 | 1.86 | 0.90 | -0.16 | -1.31 | -3.76 | -6.37 | -9.10 | -11.93 | -14.87 | -21.03 | -27.60 | -38.32 | -42.17 | -50.40 | -69.97 | -82.61 | -100.34 |
+| T (sign, log10) | -3.38 | -3.49 | -2.48 | +3.29 | +3.40 | +3.37 | +3.22 | +2.86 | +2.05 | +1.09 | +0.03 | -2.29* | -4.80* | -7.44* | -10.21* | -13.08* | -19.13* | -25.59* | -36.17* | -39.98* | -48.12* | -67.49* | -80.00* | -97.48* |
+
+(* positive, the number is log10 T.)
+
+1. **One smooth curve, primes or not.** The prime powers 4, 8, 9, 16, 25,
+   27 lie on the same curve as the primes. A mirror at distance q is read
+   the same way whatever q is.
+2. **For 2 and 3 the first power is everything.** Prime 2: 956 from q = 2,
+   0.73 from 4, 5e-11 from 8, 5e-37 from 16. Prime 3: 69 from 3, 6e-14
+   from 9. So the extension is immediate: strength_2 = (ln 2 / sqrt 2) T(2)
+   + small, and the same formula covers every prime.
+3. **TA is an intensity and T is its slope.** TA never changes sign and
+   peaks at q about 1.5; T changes sign there (between 1.5 and 1.7) and
+   T / TA equals the logarithmic slope of TA (q = 6: 37 against 36.5;
+   q = 11 to 13: 79 to 102 against 91). So the tick depends on the primes
+   through one sum:
+
+       first tick = constant - K sum over prime powers q of (ln p / sqrt q) I(q)
+
+   to first order, with I(q) = -TA(q)/K the kernel.
+4. **The kernel is the sixth Hermite wave's intensity at sqrt(q), with
+   the edge factor.** I(q) ~ H_6(sqrt(2 pi q))^2 exp(-4 pi c (1 - sqrt(1 -
+   q/c))): the offset between this and log10(-TA) is 1.88, 1.44, 1.48,
+   1.55, 1.83 at q = 1.1, 1.5, 2, 3, 5 (constant to +-0.25 while TA varies
+   by 6.7 decades), and its outermost maximum is at q about 1.5, where TA
+   peaks and T changes sign. The plateau for q below about 2.1 is the
+   wave's oscillating region (turning point sqrt(13 / 2 pi), q = 2.07);
+   2 sits just inside it, 3 just outside. That is why 2 and 3 carry
+   nearly everything.
+
+So prime 2 is special for a simple reason: sqrt(2) is the only prime
+root that falls inside the bright part of the vacuum.
+
+### Checks of the kernel: other zeros, another window (`TICKS=... response_curve.py`, c = 14.2 and 28.2)
+
+**Other zeros (c = 28.2, ticks 1 to 6).** log10 of TA_n / TA_1 across q:
+
+| q | 1.3 | 2 | 3 | 5 | 7 | 11 | 17 | 23 |
+|---|---|---|---|---|---|---|---|---|
+| tick 2 | 3.04 | 3.13 | 3.26 | 3.38 | 3.42 | 3.45 | 3.46 | 3.46 |
+| tick 4 | 8.00 | 8.12 | 8.31 | 8.54 | 8.65 | 8.72 | 8.75 | 8.76 |
+| tick 6 | 11.67 | 11.79 | 12.01 | 12.30 | 12.44 | 12.56 | 12.60 | 12.62 |
+
+Beyond q about 7 the ratio is constant to a few hundredths while TA falls
+by 60 decades: there the kernel is the same for every zero. In the bright
+region (q below 5) it tilts by 0.3 to 0.6 decade, more for higher zeros.
+So "one kernel for all zeros" is exact in the dark part and approximate
+in the bright part, where 2 and 3 sit.
+
+**Another window.** log10(-TA) for the first tick, c = 14.2 minus
+c = 28.2, against the difference of the edge factors
+4 pi c (1 - sqrt(1 - q/c)) / ln 10:
+
+| q | 2 | 3 | 5 | 7 | 13 |
+|---|---|---|---|---|---|
+| measured difference | -0.15 | -0.26 | -0.78 | -1.79 | -13.85 |
+| edge factors predict | -0.10 | -0.25 | -0.81 | -1.85 | -14.06 |
+
+The window enters only through the edge factor, to 0.05 to 0.2 decade
+over 14 decades. Same peak (q about 1.5) and same sign change of T at
+both windows.
+
+### The small tilt (`DECOMP=J response_curve.py`, c = 28.2)
+
+Decompose the response over the eigenstates above the vacuum:
+TA_n(q) = sum_j c_j(q) m_jn, with c_j(q) = <v_j | A_a | v0> and
+m_jn = v_j^(t_n) / (lambda_j v0^'(t_n)). Eigenvalues: 4.3e-130 (vacuum),
+9.8e-122, 4.7e-114, 7.5e-107, 2.8e-100, ...
+
+**Bright region (q up to about 2): two states, and that is the tilt.**
+
+| q | tick 1: share of j = 1, j = 2 | tick 6: share of j = 1, j = 2 |
+|---|---|---|
+| 1.5 | +1.12, -0.12 | +1.01, -0.01 |
+| 2 | +1.43, -0.54 | +1.03, -0.04 |
+
+The second state enters with the opposite sign, and couples to the first
+zero ten times more strongly than to the sixth (m_2n / m_1n = 10^-0.6
+for tick 1, 10^-1.6 for tick 6). Predicted change of TA_6 / TA_1 from
+q = 1.5 to 2: log10((1.43/1.03) / (1.12/1.01)) = +0.10. Measured: +0.09.
+So the tilt is the second near-null state: it matters for the lowest zero
+and fades for higher ones.
+
+**Dark region (q beyond about 3): the state-by-state picture breaks
+down.** The coefficients c_j(q) / c_1(q) grow steeply with j and q (at
+q = 23: 1e3, 1e6, 1e9, 1e11, ...), the terms alternate in sign, and the
+partial sum over the first 12 states is 10^-0.4 at q = 7 where the true
+value is 10^-9.1. Many states cancel to tens of digits. There the
+response is not "one admixture"; it is a collective cancellation whose
+result happens to be the smooth kernel, the same for every zero.
+
+This corrects the earlier explanation of the product structure ("every
+prime mixes in the one nearest state"): true for q below about 2, false
+beyond. Why the collective sum is nevertheless a clean product in the
+dark region is not understood.
+
+### Why the collective sum is a clean product: a mechanism, and a test (`OSC=1 response_curve.py`)
+
+**Argument (a sketch).**
+
+1. The form is a sum over zeros: Q = 2 sum_gamma |e_gamma><e_gamma|,
+   e_gamma(u) = cos(gamma u) on the window. The first-order shift of tick
+   n under a perturbation X is <G_n, X v0>, where G_n = Q^-1 e_(t_n) /
+   v0^'(t_n) is the form's response to a source at that zero.
+2. Q G = e_(gamma_n) asks for a function whose transform vanishes at
+   every zero except gamma_n. The vacuum's transform vanishes at all of
+   them, so the natural solution is the vacuum with that zero divided
+   out: G_n^(s) ~ v0^(s) / (s^2 - gamma_n^2), i.e.
+   (-d^2/du^2 - gamma_n^2) G_n ~ v0. It stays inside the window exactly
+   because v0^(gamma_n) = 0.
+3. For a mirror at lag a (X = -A_a) this gives
+   TA_n(a) ~ (1 / gamma_n) int_a^L R(y) sin(gamma_n (y - a)) dy,
+   R(y) = int v0(u) v0(u + y) du the vacuum's self-overlap; equivalently
+   TA_n'' + gamma_n^2 TA_n ~ R(a).
+4. In the dark region R falls so steeply beyond a that sin(gamma_n (y -
+   a)) is linear over the part that counts; the 1 / gamma_n cancels and
+   the zero drops out: TA_n(a) ~ int_a^L (y - a) R(y) dy for every n. In
+   the bright region R varies slowly, the sine matters, and the tilt
+   appears, larger for higher zeros. The crossover is where the decay
+   length of R equals 1 / gamma_n: q about 3 for the first zero, about 6
+   for the sixth, as observed.
+
+So the cancellation over many states is orderly because the states were
+the wrong variables: the response function of a zero is one object, the
+vacuum with that zero removed.
+
+**Test.** (TA_n'' + t_n^2 TA_n) / R(a), c = 28.2, ticks 1 to 4:
+
+| q | log10 R | tick 1 | tick 2 / tick 1 | tick 3 / tick 1 | tick 4 / tick 1 |
+|---|---|---|---|---|---|
+| 1.3 | -0.16 | 1.7e5 | 2604 | 3.32e5 | 5.03e8 |
+| 2 | -1.15 | 1.3e6 | 2860 | 3.71e5 | 5.71e8 |
+| 3 | -3.16 | 4.4e6 | 2889 | 3.76e5 | 5.79e8 |
+| 5 | -7.98 | 1.7e7 | 2897 | 3.77e5 | 5.81e8 |
+| 9 | -19.15 | 7.5e7 | 2900 | 3.78e5 | 5.82e8 |
+| 23 | -74.26 | 1.8e9 | 2900 | 3.78e5 | 5.82e8 |
+
+- **Putting the zero back removes most of the tilt.** Between q = 1.3 and
+  the dark region the raw ratio TA_2 / TA_1 changes by a factor 2.6;
+  after applying d^2/da^2 + t_n^2 it changes by 11% (tick 4: factor 5.6
+  raw, 16% after). The oscillator structure is right to that accuracy.
+- **The source follows the vacuum's self-overlap in exponential order
+  but not exactly.** R falls by 74 decades; the quotient drifts by 4
+  (about q^2.6, more near the edge). So step 2 holds up to a slowly
+  varying factor. Likely reasons, not checked: the zeros above 2 pi c,
+  which the vacuum's transform cannot all vanish at, and the pole terms
+  of the form.

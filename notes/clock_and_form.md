@@ -49,3 +49,35 @@ rule has to do, and it is only known window by window.
 Run the recipe ourselves: lowest state, its transform, its zeros. Then
 change the tape speed (zoom the primes) and move a single prime, and
 watch the ticks. Results in `questions.md`, section "The clock's ticks".
+
+## Added 27 November: what the experiments said
+
+The experiment proposed above was run, and four more after it. Numbers
+are in `questions.md` from "The clock's ticks" onwards.
+
+| Finding | In plain words | Status |
+|---|---|---|
+| The recipe works | With the primes 2, 3, 5, 7 the clock ticks at 13 zeros, the first to 30 digits; with primes up to 23, to 126 digits. | Reproduces Connes-Consani-Moscovici. |
+| Tick error is 10^4 times the smallest level | The tiny level is the accuracy of the zeros, as well as the play in the clock rate and the closeness to failure. | Ours, four windows. |
+| The clock is the zoom | Zoom the primes by eps and the ticks sit at zero / (1 + eps). | Ours as a measurement. |
+| Wrong primes bring back the box | Any move puts extra ticks below the first zero, spaced like the empty window's own modes. Right primes cancel them. | Ours. |
+| The vacuum outlives positivity | Moving an outer prime makes the form negative but leaves the vacuum 99.99% intact and the first zero right to 19 digits. Inner primes or a zoom destroy it. | Ours. |
+| One kernel | A mirror at any distance q, prime or not, moves a zero in proportion to the intensity of one wave (the sixth of the prolate family) at sqrt(q). Only sqrt(2) is inside its bright part. | Ours; fitted to 0.5 decade over 65. |
+| The vacuum is the template | Each zero's response is the vacuum with that zero divided out; for far mirrors the zero's own pitch drops out. | A sketch with a supporting test; a slowly varying factor is unexplained. |
+
+**What this adds to the picture of the operator.**
+
+- The construction is front-loaded: the background and the primes 2 and 3
+  make the low zeros; each further prime adds an exponentially thinner
+  correction, read off a fixed wave. Good news for a limit existing; not
+  a proof that it does.
+- The zeros are not added to an empty box by the primes. They are what
+  is left when the primes silence the box.
+- One number per window, the depth of the vacuum, governs the clock's
+  tolerance, the zeros' accuracy, and the scale on which primes fade in.
+- The objects to think with are not the individual near-null states
+  (their contributions cancel to tens of digits) but one wave, the
+  vacuum, and its versions with a zero removed.
+
+**Still the wall.** All of this is on finite windows. Nothing here says
+why the vacuum exists at every window.
