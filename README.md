@@ -1,5 +1,16 @@
 # Weil Window
 
+Why this exists
+
+I'm not a mathematician. I like poking at things I don't understand, and like many people I have tried my hand at the Riemann hypothesis. When I heard that Alpöge had announced a proof, I felt some relief, but I couldn't keep my hands off it. I took the argument apart looking for the physics I expected to be hiding in it, and found none. Everything that interested me was missing.
+
+So I turned to Connes's recent papers, where the zeros come from a concrete object: the Weil form on a finite window. I noticed something small, and possibly new, about the odd half of that form, and wanted to push on.
+
+What I wanted was a real physical system whose behaviour is the zeta zeros. I started with cold fermionic gases, because they show the same fine tuning the zeros must have, and soon had a picture of a supercold gas in a box. I began writing a dictionary between Connes's language and the physical language I think in. The background energy in the box read as vacuum energy. The geometry pointed at a horizon, the kind a black hole or an expanding universe has. From there each term in the formula found a place as a physical object: the primes as mirrors, the scaling as a clock, the lowest state as a vacuum.
+
+This repository is what came out: six numerical findings about the Weil form, the scripts and data to check them, and the physical reading that led me to them. None of it is a proof. The picture is a guide, and the numbers are the evidence. This is my attempt to contribute something to the problem.
+
+
 Numerical experiments on Weil's quadratic form restricted to a finite
 window [1/λ, λ] (write c = λ²), the form whose positivity for every
 window is equivalent to the Riemann hypothesis.
